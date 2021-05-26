@@ -38,32 +38,6 @@ public class DataBaseBean implements Serializable{
         return "INVALID TCKNO OR PASSWORD";
     }
     
-    public String createAccount() {
-        try {
-            Connection con = DbHelper.connectDb();       
-            pstatement = con.prepareStatement("insert into CUSTOMER (TCKIMLIKNUMARASI, ISIM,SOYISIM,PASSWORD) values (?,?,?,?) ");
-            pstatement.setString(1, tckno);
-            pstatement.setString(2, name);
-            pstatement.setString(3, lastname);
-            pstatement.setString(4, password);
-            pstatement.executeUpdate();
-            
-        }
-        catch(SQLException e){
-            Logger.getLogger(DataBaseBean.class.getName()).log(Level.SEVERE, null, e);
-            System.out.println("Error Code: "+e.getErrorCode());
-            
-            //HATA VERIP CREATE ACCOUNT SAYFASINA GERI DONMELU
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DataBaseBean.class.getName()).log(Level.SEVERE, null, ex);
-            
-            //HATA VERIP CREATE ACCOUNT SAYFASINA GERI DONMELU
-            
-        }
-        return "index";
-    }
-    
     public String changePasword() {
         if (passwordControl.equals(password)) {
             try {
