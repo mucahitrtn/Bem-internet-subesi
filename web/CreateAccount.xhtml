@@ -9,26 +9,26 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
-        
+
         <h:outputStylesheet library="css" name="bootstrap.css"/>
         <h:outputStylesheet library="css" name="login-form.css"/>
         <h:outputScript library="js" name="bootstrap.js"/>
-        
-     <style>
+
+        <style>
             body {
                 height: 100vh;
                 font-family: 'Raleway';
                 color: #333;
             }
             .login-form {
-               
+
                 margin: 50px auto;
                 font-size: 15px;
                 border-radius: 0.5rem;
                 text-align: center;
                 font-family: serif;
-                
-                
+
+
             }
             .login-form form {
                 margin-bottom: 15px;
@@ -48,7 +48,7 @@ and open the template in the editor.
                 border-radius: 2px;
                 border-radius: 0.5rem;
                 margin-top: 10px;
-             
+
             }
             .btn:hover {        
                 font-size: 15px;
@@ -57,7 +57,7 @@ and open the template in the editor.
                 color: #f2f2f2;
                 border-radius: 0.5rem;
                 background-color: #0071df;
-                
+
             }
         </style>    
     </h:head>
@@ -68,23 +68,31 @@ and open the template in the editor.
                 <h2 class="text-center">REGISTER</h2>       
                 <div class="form-row">
                     <h:inputText a:type="text" class="form-control" a:placeholder="TCKNO" required="true"              
-                                 requiredMessage="TCKNO is required" value="#{databasebean.tckno}"/>
+                                 requiredMessage="TCKNO is required" value="#{createaccount.tckno}"/>
                 </div>
                 <div class="form-row">
                     <h:inputText a:type="text" class="form-control" a:placeholder="NAME" required="true"              
-                                 requiredMessage="NAME is required" value="#{databasebean.name}" />
+                                 requiredMessage="NAME is required" value="#{createaccount.name}" />
                 </div>
                 <div class="form-row">
                     <h:inputText a:type="text" class="form-control" a:placeholder="LASTNAME" required="true"              
-                                 requiredMessage="LASTNAME is required" value="#{databasebean.lastname}" />
+                                 requiredMessage="LASTNAME is required" value="#{createaccount.lastname}" />
+                </div>
+                <div class="form-row">
+                    <h:inputText a:type="text" class="form-control" a:placeholder="YYYY-MM-DD" required="true"              
+                                 requiredMessage="Birth Date is required" value="#{createaccount.birthDate}" />
+                </div>
+                <div class="form-row">
+                    <h:inputText a:type="text" class="form-control" a:placeholder="SECURITY WORD" required="true"              
+                                 requiredMessage="SECURITY word is required" value="#{createaccount.securityObject}" />
                 </div>
                 <div class="form-row">
                     <h:inputSecret a:type="password" class="form-control" a:placeholder="PASSWORD" required="true"              
-                                   requiredMessage="PASSWORD is required" value="#{databasebean.password}" />
+                                   requiredMessage="PASSWORD is required" value="#{createaccount.password}" />
                 </div>
                 <h:form>
                     <div class="form-row">
-                        <h:commandButton type="submit" class="btn btn-primary btn-block" action="#{databasebean.createAccount()}" value="CREATE MY ACCOUNT"/>
+                        <h:commandButton type="submit" class="btn btn-primary btn-block" action="#{createaccount.createAccount()}" value="CREATE MY ACCOUNT"/>
                     </div>   
                 </h:form>
             </h:form>
