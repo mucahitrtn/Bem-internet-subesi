@@ -68,31 +68,31 @@ and open the template in the editor.
                 <h2 class="text-center">REGISTER</h2>       
                 <div class="form-row">
                     <h:inputText a:type="text" class="form-control" a:placeholder="TCKNO" required="true"              
-                                 requiredMessage="TCKNO is required" value="#{createaccount.tckno}"/>
+                                 requiredMessage="TCKNO is required" value="#{customer.tckno}"/>
                 </div>
                 <div class="form-row">
                     <h:inputText a:type="text" class="form-control" a:placeholder="NAME" required="true"              
-                                 requiredMessage="NAME is required" value="#{createaccount.name}" />
+                                 requiredMessage="NAME is required" value="#{customer.name}" />
                 </div>
                 <div class="form-row">
                     <h:inputText a:type="text" class="form-control" a:placeholder="LASTNAME" required="true"              
-                                 requiredMessage="LASTNAME is required" value="#{createaccount.lastname}" />
+                                 requiredMessage="LASTNAME is required" value="#{customer.lastname}" />
                 </div>
                 <div class="form-row">
                     <h:inputText a:type="text" class="form-control" a:placeholder="YYYY-MM-DD" required="true"              
-                                 requiredMessage="Birth Date is required" value="#{createaccount.birthDate}" />
+                                 requiredMessage="Birth Date is required" value="#{customer.birthDate}" />
                 </div>
                 <div class="form-row">
                     <h:inputText a:type="text" class="form-control" a:placeholder="SECURITY WORD" required="true"              
-                                 requiredMessage="SECURITY word is required" value="#{createaccount.securityObject}" />
+                                 requiredMessage="SECURITY word is required" value="#{customer.security}" />
                 </div>
                 <div class="form-row">
                     <h:inputSecret a:type="password" class="form-control" a:placeholder="PASSWORD" required="true"              
-                                   requiredMessage="PASSWORD is required" value="#{createaccount.password}" />
+                                   requiredMessage="PASSWORD is required" value="#{customer.password}" />
                 </div>
                 <h:form>
                     <div class="form-row">
-                        <h:commandButton type="submit" class="btn btn-primary btn-block" action="#{createaccount.createAccount()}" value="CREATE MY ACCOUNT"/>
+                        <h:commandButton type="submit" class="btn btn-primary btn-block" action="#{customer.createAccount()}" value="CREATE MY ACCOUNT"/>
                     </div>   
                 </h:form>
             </h:form>
