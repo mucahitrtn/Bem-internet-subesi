@@ -20,11 +20,23 @@ public class Customer  implements Serializable {
     private String passwordControl;
     private String security;
     private String birthDate;
+    
+    
     PreparedStatement pstatement = null;
     ResultSet rs = null;
+    
+    
     private Payments payments= null;
     private String borc;
 
+    
+    private Credit credit=null;
+    private String creditDebt;
+
+
+    private String creditAmount;
+    private String creditRate;
+    private String creditMonth;
    
     public Customer() {
         System.out.println("customer cons"+borc);
@@ -69,6 +81,12 @@ public class Customer  implements Serializable {
             this.borc= getPayments().paymentsCall();
             System.out.println("CUSTOMERDER "+borc);
             customerInformation();
+            setCredit(new Credit(tckno));
+            credit.creditInfo();
+            this.creditDebt=getCredit().getCreditString();
+            this.creditAmount=getCredit().getCreditAmountS();
+            this.creditRate= getCredit().getRatestring();
+            this.creditMonth= getCredit().getMonthS();
             return "mainPage";
         }
         // UYARI VERIP INDEX SAYFASINA GERI DONMELI   
@@ -192,6 +210,45 @@ public class Customer  implements Serializable {
     /**
      * @param security the security to set
      */
+        public Credit getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Credit credit) {
+        this.credit = credit;
+    }
+
+    public String getCreditDebt() {
+        return creditDebt;
+    }
+
+    public void setCreditDebt(String creditDebt) {
+        this.creditDebt = creditDebt;
+    }
+
+    public String getCreditAmount() {
+        return creditAmount;
+    }
+
+    public void setCreditAmount(String creditAmount) {
+        this.creditAmount = creditAmount;
+    }
+
+    public String getCreditRate() {
+        return creditRate;
+    }
+
+    public void setCreditRate(String creditRate) {
+        this.creditRate = creditRate;
+    }
+
+    public String getCreditMonth() {
+        return creditMonth;
+    }
+
+    public void setCreditMonth(String creditMonth) {
+        this.creditMonth = creditMonth;
+    }
     public void setSecurity(String security) {
         this.security = security;
     }
