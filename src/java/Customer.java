@@ -11,7 +11,7 @@ import javax.inject.Named;
 @ManagedBean(name = "customer")
 @SessionScoped
 
-public class Customer  implements Serializable {
+public class Customer implements Serializable {
 
     private String tckno;
     private String name;
@@ -20,29 +20,30 @@ public class Customer  implements Serializable {
     private String passwordControl;
     private String security;
     private String birthDate;
-    
-    
-    PreparedStatement pstatement = null;
-    ResultSet rs = null;
-    
-    
-    private Payments payments= null;
+
+    private PreparedStatement pstatement = null;
+    private ResultSet rs = null;
+
+    private Payments payments = null;
     private String borc;
 
-    
-    private Credit credit=null;
+    private Credit credit = null;
     private String creditDebt;
-
-
     private String creditAmount;
     private String creditRate;
     private String creditMonth;
-   
+
+    private Deposit deposit = null;
+    private String depositAmount;
+    private String depositDate;
+    private String depositMonth;
+    private String depositRate;
+    private String depositProfit;
+
     public Customer() {
-        System.out.println("customer cons"+borc);
+
     }
-    
-    
+
     public String createAccount() {
         try {
             Connection con = DbHelper.connectDb();
@@ -75,18 +76,26 @@ public class Customer  implements Serializable {
         pstatement.setString(1, tckno);
         pstatement.setString(2, password);
         rs = pstatement.executeQuery();
-        
+
         if (rs.next()) {
             setPayments(new Payments(tckno));
-            this.borc= getPayments().paymentsCall();
-            System.out.println("CUSTOMERDER "+borc);
+            this.borc = getPayments().paymentsCall();
             customerInformation();
+            
             setCredit(new Credit(tckno));
             credit.creditInfo();
-            this.creditDebt=getCredit().getCreditString();
-            this.creditAmount=getCredit().getCreditAmountS();
-            this.creditRate= getCredit().getRatestring();
-            this.creditMonth= getCredit().getMonthS();
+            this.creditDebt = getCredit().getCreditString();
+            this.creditAmount = getCredit().getCreditAmountS();
+            this.creditRate = getCredit().getRatestring();
+            this.creditMonth = getCredit().getMonthS();
+            
+            setDeposit(new Deposit(tckno));
+            deposit.depositInfo();
+            this.depositAmount=getDeposit().getDepositS();
+            this.depositDate= getDeposit().getDepositDate();
+            this.depositMonth=getDeposit().getDepositMonthS();
+            this.depositProfit=getDeposit().getDepositProfitS();
+            this.depositRate= getDeposit().getDepositRateS();
             return "mainPage";
         }
         // UYARI VERIP INDEX SAYFASINA GERI DONMELI   
@@ -130,25 +139,27 @@ public class Customer  implements Serializable {
         }
 
     }
-     public void customerInformation() {
+
+    public void customerInformation() {
         try {
             Connection con = DbHelper.connectDb();
-            pstatement = con.prepareStatement("select ISIM,SOYISIM,PASSWORD,DOGUMTARIHI,GUVENLIK from CUSTOMER where TCKIMLIKNUMARASI=?   ");            
+            pstatement = con.prepareStatement("select ISIM,SOYISIM,PASSWORD,DOGUMTARIHI,GUVENLIK from CUSTOMER where TCKIMLIKNUMARASI=?   ");
             pstatement.setString(1, tckno);
-            rs= pstatement.executeQuery();
+            rs = pstatement.executeQuery();
             System.out.println("Burada");
-            if(rs.next()){
-                this.name=rs.getString("ISIM");
-                this.lastname=rs.getString("SOYISIM");
-                this.password=rs.getString("PASSWORD");
-                this.birthDate=rs.getString("DOGUMTARIHI");
-                this.security=rs.getString("GUVENLIK");
+            if (rs.next()) {
+                this.name = rs.getString("ISIM");
+                this.lastname = rs.getString("SOYISIM");
+                this.password = rs.getString("PASSWORD");
+                this.birthDate = rs.getString("DOGUMTARIHI");
+                this.security = rs.getString("GUVENLIK");
                 System.out.println("Burada");
                 System.out.println(tckno);
                 System.out.println(name);
                 System.out.println(lastname);
-                System.out.println(birthDate);System.out.println(security);
-                
+                System.out.println(birthDate);
+                System.out.println(security);
+
             }
 
         } catch (SQLException e) {
@@ -160,6 +171,7 @@ public class Customer  implements Serializable {
 
         }
     }
+
     public String getTckno() {
         return tckno;
     }
@@ -210,7 +222,7 @@ public class Customer  implements Serializable {
     /**
      * @param security the security to set
      */
-        public Credit getCredit() {
+    public Credit getCredit() {
         return credit;
     }
 
@@ -249,6 +261,7 @@ public class Customer  implements Serializable {
     public void setCreditMonth(String creditMonth) {
         this.creditMonth = creditMonth;
     }
+
     public void setSecurity(String security) {
         this.security = security;
     }
@@ -280,11 +293,60 @@ public class Customer  implements Serializable {
     public void setPayments(Payments payments) {
         this.payments = payments;
     }
-     public String getBorc() {
+
+    public String getBorc() {
         return borc;
     }
 
     public void setBorc(String borc) {
         this.borc = borc;
+    }
+    
+    public Deposit getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(Deposit deposit) {
+        this.deposit = deposit;
+    }
+
+    public String getDepositAmount() {
+        return depositAmount;
+    }
+
+    public void setDepositAmount(String depositAmount) {
+        this.depositAmount = depositAmount;
+    }
+
+    public String getDepositDate() {
+        return depositDate;
+    }
+
+    public void setDepositDate(String depositDate) {
+        this.depositDate = depositDate;
+    }
+
+    public String getDepositMonth() {
+        return depositMonth;
+    }
+
+    public void setDepositMonth(String depositMonth) {
+        this.depositMonth = depositMonth;
+    }
+
+    public String getDepositRate() {
+        return depositRate;
+    }
+
+    public void setDepositRate(String depositRate) {
+        this.depositRate = depositRate;
+    }
+
+    public String getDepositProfit() {
+        return depositProfit;
+    }
+
+    public void setDepositProfit(String depositProfit) {
+        this.depositProfit = depositProfit;
     }
 }
