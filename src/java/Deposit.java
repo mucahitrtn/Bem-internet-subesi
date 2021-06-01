@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,7 +20,7 @@ import javax.faces.bean.RequestScoped;
  */
 @ManagedBean(name="deposit")
 @RequestScoped
-public class Deposit {
+public class Deposit implements Serializable{
     private String tckno;
     private PreparedStatement pstatement = null;
     private ResultSet rs = null;
@@ -47,22 +48,22 @@ public class Deposit {
     public void depositInfo(){
         try {
             Connection con = DbHelper.connectDb();
-            pstatement = con.prepareStatement("select YATIRILANPARA,YATIRILMATARIHI,AY,FAIZORAN,NETKAR from MEVDUAT where TCKIMLIKNUMARASI=? ");
+            pstatement = con.prepareStatement("select MEVDUATYATIRILANPARA, MEVDUATYATIRMATARIHI, MEVDUATGUN, MEVDUATORAN, MEVDUATKAR from DENEME where TCKIMLIKNUMARASI= ?");
             pstatement.setString(1, tckno);
             rs = pstatement.executeQuery();
-
+            
             if (rs.next()) {
-                this.depositF = rs.getFloat("YATIRILANPARA");
+                this.depositF = rs.getFloat("MEVDUATYATIRILANPARA");
                 depositS= String.valueOf(depositF);
                 System.out.print("Paymentsin icinde "+depositF);
-                this.depositDate = rs.getString("YATIRILMATARIHI");                
-                this.depositMonthF = rs.getFloat("AY");
+                this.depositDate = rs.getString("MEVDUATYATIRMATARIHI");                
+                this.depositMonthF = rs.getFloat("MEVDUATGUN");
                 depositMonthS= String.valueOf(depositMonthF);
                 System.out.print("Paymentsin icinde "+ depositMonthS);
-                this.depositRateF = rs.getFloat("FAIZORAN");
+                this.depositRateF = rs.getFloat("MEVDUATORAN");
                 depositRateS= String.valueOf(depositRateF);
                 System.out.print("Paymentsin icinde "+depositRateS);
-                this.depositProfitF= rs.getFloat("NETKAR");
+                this.depositProfitF= rs.getFloat("MEVDUATKAR");
                 depositProfitS= String.valueOf(depositProfitF);
             }
 
@@ -70,10 +71,22 @@ public class Deposit {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
             System.out.println("Error Code: " + e.getErrorCode());
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+     public void createAccountDeposit() {
+        try {
+            Connection con = DbHelper.connectDb();
+            pstatement = con.prepareStatement("insert into APP.DENEME (TCKIMLIKNUMARASI,MEVDUATYATIRILANPARA,MEVDUATYATIRMATARIHI,MEVDUATGUN,MEVDUATORAN,MEVDUATKAR) values (? , default, ?, default, default, default) ");
+            pstatement.setString(1, tckno);
+            pstatement.setString(2,"-");
 
+        } catch (SQLException ex) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error Code Mevduat: " + ex.getErrorCode());
         }
+        
+        
     }
     
     

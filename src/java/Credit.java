@@ -1,4 +1,5 @@
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +11,7 @@ import javax.faces.bean.RequestScoped;
 
 @ManagedBean(name = "credit")
 @RequestScoped
-public class Credit {
+public class Credit implements Serializable{
 
     private String tckno;
     private PreparedStatement pstatement = null;
@@ -72,21 +73,21 @@ public class Credit {
     public void creditInfo(){
         try {
             Connection con = DbHelper.connectDb();
-            pstatement = con.prepareStatement("select BORC,FAIZORAN,KREDITUTARI,AY from KREDI where TCKIMLIKNUMARASI=? ");
+            pstatement = con.prepareStatement("select KREDIBORC,KREDIORAN,KREDITUTARI,VADEAYI from KREDI where TCKIMLIKNUMARASI= ?");
             pstatement.setString(1, tckno);
             rs = pstatement.executeQuery();
 
             if (rs.next()) {
-                this.creditFloat = rs.getFloat("BORC");
+                this.creditFloat = rs.getFloat("KREDIBORC");
                 creditString= String.valueOf(creditFloat);
                 System.out.print("Paymentsin icinde "+creditFloat);
-                this.ratefloat = rs.getFloat("FAIZORAN");
+                this.ratefloat = rs.getFloat("KREDIORAN");
                 ratestring= String.valueOf(ratefloat);
                 System.out.print("Paymentsin icinde "+ratefloat);
                 this.creditAmountF = rs.getFloat("KREDITUTARI");
                 creditAmountS= String.valueOf(creditAmountF);
                 System.out.print("Paymentsin icinde "+creditAmountF);
-                this.monthF = rs.getInt("AY");
+                this.monthF = rs.getInt("VADEAYI");
                 monthS= String.valueOf(monthF);
                 System.out.print("Paymentsin icinde "+monthF);
             }
@@ -95,10 +96,22 @@ public class Credit {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
             System.out.println("Error Code: " + e.getErrorCode());
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
-
+        } 
+    }
+    
+    public void createAccountCredit(){
+         try {
+            Connection con = DbHelper.connectDb();
+            
+            pstatement = con.prepareStatement("insert into KREDI (TCKIMLIKNUMARASI,KREDIBORC,KREDIORAN,KREDITUTARI,VADEAYI) values (?,DEFAULT,DEFAULT,DEFAULT,DEFAULT)");
+            pstatement.setString(1, tckno);
+            pstatement.executeUpdate();
+            
+        } catch (SQLException e) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
+            System.out.println("Error Code Kredi: " + e.getErrorCode());
         }
+
     }
     
     public float getCreditFloat() {

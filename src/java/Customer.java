@@ -39,12 +39,17 @@ public class Customer implements Serializable {
     private String depositMonth;
     private String depositRate;
     private String depositProfit;
+    
+    private Accounts accounts= null;
+    private String accountAmount;
 
+  
     public Customer() {
-
+       
     }
 
     public String createAccount() {
+
         try {
             Connection con = DbHelper.connectDb();
             pstatement = con.prepareStatement("insert into CUSTOMER (TCKIMLIKNUMARASI, ISIM,SOYISIM,PASSWORD,DOGUMTARIHI,GUVENLIK) values (?,?,?,?,?,?) ");
@@ -55,17 +60,23 @@ public class Customer implements Serializable {
             pstatement.setString(5, birthDate);
             pstatement.setString(6, security);
             pstatement.executeUpdate();
-
         } catch (SQLException e) {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
-            System.out.println("Error Code: " + e.getErrorCode());
-
-            //HATA VERIP CREATE ACCOUNT SAYFASINA GERI DONMELU
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
-
-            //HATA VERIP CREATE ACCOUNT SAYFASINA GERI DONMELU
+            System.out.println("Error Code Customer: " + e.getErrorCode());
         }
+        
+        setPayments(new Payments(tckno));
+        payments.createAccountPayments();
+        
+        setCredit(new Credit(tckno));
+        credit.createAccountCredit();
+        
+        setDeposit(new Deposit(tckno));
+        deposit.createAccountDeposit();
+        
+        setAccounts(new Accounts(tckno));
+        accounts.createAccountAccount();
+        
         return "index";
     }
 
@@ -81,21 +92,25 @@ public class Customer implements Serializable {
             setPayments(new Payments(tckno));
             this.borc = getPayments().paymentsCall();
             customerInformation();
-            
+
             setCredit(new Credit(tckno));
             credit.creditInfo();
             this.creditDebt = getCredit().getCreditString();
             this.creditAmount = getCredit().getCreditAmountS();
             this.creditRate = getCredit().getRatestring();
             this.creditMonth = getCredit().getMonthS();
-            
+
             setDeposit(new Deposit(tckno));
             deposit.depositInfo();
-            this.depositAmount=getDeposit().getDepositS();
-            this.depositDate= getDeposit().getDepositDate();
-            this.depositMonth=getDeposit().getDepositMonthS();
-            this.depositProfit=getDeposit().getDepositProfitS();
-            this.depositRate= getDeposit().getDepositRateS();
+            this.depositAmount = getDeposit().getDepositS();
+            this.depositDate = getDeposit().getDepositDate();
+            this.depositMonth = getDeposit().getDepositMonthS();
+            this.depositProfit = getDeposit().getDepositProfitS();
+            this.depositRate = getDeposit().getDepositRateS();
+            
+            setAccounts(new Accounts(tckno));
+            this.accountAmount= accounts.accountAmountInfo();
+            
             return "mainPage";
         }
         // UYARI VERIP INDEX SAYFASINA GERI DONMELI   
@@ -123,9 +138,6 @@ public class Customer implements Serializable {
                 pstatement.setString(1, password);
                 pstatement.setString(2, tckno);
                 pstatement.executeUpdate();
-
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
 
             } catch (SQLException ex) {
                 Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
@@ -165,9 +177,6 @@ public class Customer implements Serializable {
         } catch (SQLException e) {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
             System.out.println("Error Code: " + e.getErrorCode());
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
 
         }
     }
@@ -212,16 +221,27 @@ public class Customer implements Serializable {
         this.passwordControl = passwordControl;
     }
 
-    /**
-     * @return the security
-     */
+    
     public String getSecurity() {
         return security;
     }
 
-    /**
-     * @param security the security to set
-     */
+      public Accounts getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(Accounts accounts) {
+        this.accounts = accounts;
+    }
+
+    public String getAccountAmount() {
+        return accountAmount;
+    }
+
+    public void setAccountAmount(String accountAmount) {
+        this.accountAmount = accountAmount;
+    }
+    
     public Credit getCredit() {
         return credit;
     }
@@ -301,7 +321,7 @@ public class Customer implements Serializable {
     public void setBorc(String borc) {
         this.borc = borc;
     }
-    
+
     public Deposit getDeposit() {
         return deposit;
     }

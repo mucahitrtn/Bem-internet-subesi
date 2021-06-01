@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 public class DbHelper {
     
-    public static Connection connectDb() throws ClassNotFoundException{
+    public static Connection connectDb() {
         
         Connection conn= null;
         try {
@@ -15,6 +15,8 @@ public class DbHelper {
         } catch (SQLException ex) {
             Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
             System.err.println(ex.getErrorCode());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DbHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return null;

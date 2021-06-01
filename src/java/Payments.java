@@ -17,8 +17,8 @@ import javax.faces.bean.RequestScoped;
 public class Payments implements Serializable {
 
     private String tckno;
-    PreparedStatement pstatement = null;
-    ResultSet rs = null;
+    private PreparedStatement pstatement = null;
+    private ResultSet rs = null;
 
     public String getSborc() {
         return sborc;
@@ -46,6 +46,19 @@ public class Payments implements Serializable {
     }
     public Payments() {
     }
+      public void createAccountPayments(){
+         try {
+            Connection con = DbHelper.connectDb();
+            pstatement = con.prepareStatement("insert into ODEMELER (TCKIMLIKNUMARASI, ISIM, BORC) values (?,?,?)");
+            pstatement.setString(1, tckno);
+            pstatement.setString(2, "Odeme Bulunmamaktadır.");
+            pstatement.setDouble(3, 0);
+            pstatement.executeUpdate();
+        } catch (SQLException exc) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, exc);
+            System.out.println("Error Code Odemeler: " + exc.getErrorCode());
+        }
+    }
     
     public String paymentsCall(){
         try {
@@ -64,10 +77,7 @@ public class Payments implements Serializable {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
             System.out.println("Error Code: " + e.getErrorCode());
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
+        } 
         return sborc;
     }
 }
