@@ -46,7 +46,27 @@
                 padding: 15px;
             }
 
+            .rows{
+                margin: 35px 0px;
+                width: 350px;
+                height: 50px;
+                background-color: #fe8c30;
+                border-radius: 10px;
+            }
 
+            .line{
+                color: white;
+                padding: 10px;
+            }
+            
+            .rows2{
+                margin: 19px 0px;
+                width: 350px;
+                height: 50px;
+                background-color: #fe8c30;
+                border-radius: 10px; 
+            }
+            
         </style>
 
     </h:head>
@@ -92,10 +112,18 @@
                     <center><header><h5 style='color: #fe8c30;font-weight: bold'>Account Information</h5></header></center>
                 </div>
                 <div>
-                    <h3>Identity Card Number: #{customer.tckno}</h3>
-                    <h3>Name: #{customer.name}</h3>
-                    <h3>Name: #{customer.lastname}</h3>
-                    <h3>Name: #{customer.security}</h3>
+                    <div class="rows">
+                        <h4 class="line">Id Number: #{customer.tckno}</h4>
+                    </div>
+                    <div class="rows">
+                        <h4 class="line">Name: #{customer.name}</h4>
+                    </div>
+                    <div class="rows">
+                        <h4 class="line">Name: #{customer.lastname}</h4>
+                    </div>
+                    <div class="rows">
+                        <h4 class="line">Name: #{customer.security}</h4>
+                    </div>
                 </div>
             </div>
 
@@ -104,9 +132,9 @@
                     <center><header><h5 style='color: #fe8c30;font-weight: bold'>Bills</h5></header></center>
                 </div>
                 <div>
-                    <h3>
+                    <h4>
                         #{customer.borc}
-                    </h3>
+                    </h4>
                 </div>
             </div>
 
@@ -115,10 +143,18 @@
                     <center><header><h5 style='color: #fe8c30;font-weight: bold'>Credit Information</h5></header></center>
                 </div>
                 <div>
-                   <h5> Credit Debt: #{customer.creditDebt}</h5>
-                   <h5> Credit Amount: #{customer.creditAmount}</h5>
-                    <h5>Credit Rate: #{customer.creditRate}</h5>
-                    <h5>Date: #{customer.creditMonth}</h5>
+                    <div class="rows">
+                        <h4 class="line"> Credit Debt: #{customer.creditDebt}</h4>
+                    </div>
+                    <div class="rows">
+                        <h4 class="line"> Credit Amount: #{customer.creditAmount}</h4>
+                    </div>
+                    <div class="rows">
+                        <h4 class="line">Credit Rate: #{customer.creditRate}</h4>
+                    </div>
+                    <div class="rows">
+                        <h4 class="line">Date: #{customer.creditMonth}</h4>
+                    </div>
                 </div>
             </div>
 
@@ -127,11 +163,21 @@
                     <center><header><h5 style='color: #fe8c30;font-weight: bold'>Deposit Information</h5></header></center>
                 </div>
                 <div>
-                    <h5> Deposit Amount: #{customer.depositAmount}</h5>
-                    <h5>  Deposit Date: #{customer.depositDate}</h5>
-                    <h5> Month: #{customer.depositMonth}</h5>
-                    <h5> Rate:#{customer.depositRate}</h5>
-                    <h5>Profit: #{customer.depositProfit}</h5>
+                    <div class="rows2">
+                        <h4 class="line"> Deposit Amount: #{customer.depositAmount}</h4>
+                    </div>
+                    <div class="rows2">
+                        <h4 class="line">  Deposit Date: #{customer.depositDate}</h4>
+                    </div>
+                    <div class="rows2">
+                        <h4 class="line"> Month: #{customer.depositMonth}</h4>
+                    </div>
+                    <div class="rows2">
+                        <h4 class="line"> Rate:#{customer.depositRate}</h4>
+                    </div>
+                    <div class="rows2">
+                        <h4 class="line">Profit: #{customer.depositProfit}</h4>
+                    </div>
                 </div>
             </div>
 
