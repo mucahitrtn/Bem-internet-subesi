@@ -25,12 +25,22 @@
                 min-width: 100%;
                 min-height: 100%;
             }
+            
+            .navbar{
+                background-image: linear-gradient(62deg, #047cfc 5%, #141c64 100%);
+            }
+            
             .nav-item{
                 border: 2px solid transparent;
                 margin-left:5px;
                 margin-right:5px; 
             }
-
+            
+            p{
+                color: #fe8c30;
+                padding-top: 20px;
+            }
+            
             .nav-item:hover{
                 border-bottom: 2px solid #fe8c30
             }
@@ -83,19 +93,19 @@
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav">
                             <h:form>
-                                <h:commandLink action="/mainPage.xhtml" class="nav-item nav-link" >Home</h:commandLink>
+                                <h:commandLink action="/mainPage.xhtml" class="nav-item nav-link" ><p>Home</p></h:commandLink>
                             </h:form>
                             <h:form>
-                                <h:commandLink action="/payments.xhtml" class="nav-item nav-link">Payments</h:commandLink>
+                                <h:commandLink action="/payments.xhtml" class="nav-item nav-link"><p>Payments</p></h:commandLink>
                             </h:form>
                             <h:form>
-                                <h:commandLink action="/transfer.xhtml" class="nav-item nav-link">Transfer</h:commandLink>
+                                <h:commandLink action="/transfer.xhtml" class="nav-item nav-link"><p>Transfer</p></h:commandLink>
                             </h:form>
                             <h:form>
-                                <h:commandLink action="/deposit.xhtml" class="nav-item nav-link ">Deposit</h:commandLink>
+                                <h:commandLink action="/deposit.xhtml" class="nav-item nav-link "><p>Deposit</p></h:commandLink>
                             </h:form>
                             <h:form>
-                                <h:commandLink action="/credit.xhtml" class="nav-item nav-link ">Credit</h:commandLink>
+                                <h:commandLink action="/credit.xhtml" class="nav-item nav-link "><p>Credit</p></h:commandLink>
                             </h:form>
                         </div>
                         <div class="navbar-nav ml-auto">
