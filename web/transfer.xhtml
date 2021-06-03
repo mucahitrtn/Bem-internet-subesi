@@ -114,15 +114,15 @@
                     <h:form>
                         <div class="form-group">
                             <label for="IDNUM">ID Number</label>
-                            <h:inputText a:type="number" class="form-control" id="IDNUM" a:placeholder="Enter ID"/>
+                            <h:inputText a:type="text" class="form-control" id="IDNUM" value="#{customer.gidentckno}" a:placeholder="Enter ID"/>
                             <small id="emailHelp" style="color: #fe8c30" class="form-text text-muted">Gondermek istediginiz id yi girin</small>
                         </div>
                         <div class="form-group">
                             <label for="CASH">Amount</label>
-                            <h:inputText a:type="number" class="form-control" id="CASH" a:placeholder="Amount"/>
+                            <h:inputText a:type="number" class="form-control" id="CASH" value="#{customer.gidenparaD}" a:placeholder="Amount"/>
                         </div>
                         
-                        <h:commandButton type="submit" class="btn btn-primary btn-block" value="Submit" style="background-color: #fe8c30" />
+                        <h:commandButton type="submit" class="btn btn-primary btn-block" value="Submit" action="#{customer.moneytransfer()}" style="background-color: #fe8c30" />
                     </h:form>
                 </div>
             </div>

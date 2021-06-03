@@ -13,6 +13,13 @@ import javax.inject.Named;
 
 public class Customer implements Serializable {
 
+    private String gidentckno;
+    private String gidenpara;
+    private String gidenhesap;
+    private double gidentcknoD;
+    private double gidenparaD;
+    private double gidenhesapD;
+    
     private String tckno;
     private String name;
     private String lastname;
@@ -180,7 +187,46 @@ public class Customer implements Serializable {
 
         }
     }
+    
+    public void moneytransfer(){
+        try {
+            Connection con = DbHelper.connectDb();
+            pstatement = con.prepareStatement("select BAKIYE from HESAP where TCKIMLIKNUMARASI=? ");
+            pstatement.setString(1, gidentckno);
+            rs = pstatement.executeQuery();
 
+            if (rs.next()) {
+                this.gidenhesapD = rs.getFloat("BAKIYE");
+                gidenhesap= String.valueOf(gidenhesapD);
+                System.out.print("ACCOUNT icinde "+ gidenhesapD);
+            }
+            double tempbakiye;
+            tempbakiye = Double.parseDouble(accountAmount);
+            
+            if (tempbakiye >= gidenparaD){
+                gidenhesapD = gidenhesapD + gidenparaD;
+                tempbakiye = tempbakiye - gidenparaD;
+                gidenhesap= String.valueOf(gidenhesapD);
+                accountAmount = String.valueOf(tempbakiye);
+                
+                pstatement = con.prepareStatement("UPDATE HESAP SET BAKIYE=? WHERE TCKIMLIKNUMARASI=? ");
+                pstatement.setDouble(1,gidenhesapD);
+                pstatement.setString(2,gidentckno);
+                pstatement.executeUpdate();
+                
+                pstatement = con.prepareStatement("UPDATE HESAP SET BAKIYE=? WHERE TCKIMLIKNUMARASI=? ");
+                pstatement.setDouble(1,tempbakiye);
+                pstatement.setString(2,tckno);
+                pstatement.executeUpdate();
+            }
+            
+        } catch (SQLException e) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
+            System.out.println("Error Code: " + e.getErrorCode());
+
+        } 
+    }
+    
     public String getTckno() {
         return tckno;
     }
@@ -368,5 +414,55 @@ public class Customer implements Serializable {
 
     public void setDepositProfit(String depositProfit) {
         this.depositProfit = depositProfit;
+    }
+    
+    
+    
+    public String getGidentckno() {
+        return gidentckno;
+    }
+
+    public void setGidentckno(String gidentckno) {
+        this.gidentckno = gidentckno;
+    }
+
+    public String getGidenpara() {
+        return gidenpara;
+    }
+
+    public void setGidenpara(String gidenpara) {
+        this.gidenpara = gidenpara;
+    }
+
+    public String getGidenhesap() {
+        return gidenhesap;
+    }
+
+    public void setGidenhesap(String gidenhesap) {
+        this.gidenhesap = gidenhesap;
+    }
+
+    public double getGidentcknoD() {
+        return gidentcknoD;
+    }
+
+    public void setGidentcknoD(double gidentcknoD) {
+        this.gidentcknoD = gidentcknoD;
+    }
+
+    public double getGidenparaD() {
+        return gidenparaD;
+    }
+
+    public void setGidenparaD(double gidenparaD) {
+        this.gidenparaD = gidenparaD;
+    }
+
+    public double getGidenhesapD() {
+        return gidenhesapD;
+    }
+
+    public void setGidenhesapD(double gidenhesapD) {
+        this.gidenhesapD = gidenhesapD;
     }
 }
