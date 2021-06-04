@@ -3,9 +3,13 @@ import java.io.Serializable;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.webapp.UIComponentClassicTagBase;
 import javax.inject.Named;
 
 @ManagedBean(name = "customer")
@@ -19,7 +23,7 @@ public class Customer implements Serializable {
     private double gidentcknoD;
     private double gidenparaD;
     private double gidenhesapD;
-    
+
     private String tckno;
     private String name;
     private String lastname;
@@ -46,13 +50,12 @@ public class Customer implements Serializable {
     private String depositMonth;
     private String depositRate;
     private String depositProfit;
-    
-    private Accounts accounts= null;
+
+    private Accounts accounts = null;
     private String accountAmount;
 
-  
     public Customer() {
-       
+
     }
 
     public String createAccount() {
@@ -71,19 +74,19 @@ public class Customer implements Serializable {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
             System.out.println("Error Code Customer: " + e.getErrorCode());
         }
-        
+
         setPayments(new Payments(tckno));
         payments.createAccountPayments();
-        
+
         setCredit(new Credit(tckno));
         credit.createAccountCredit();
-        
+
         setDeposit(new Deposit(tckno));
         deposit.createAccountDeposit();
-        
+
         setAccounts(new Accounts(tckno));
         accounts.createAccountAccount();
-        
+
         return "index";
     }
 
@@ -114,10 +117,10 @@ public class Customer implements Serializable {
             this.depositMonth = getDeposit().getDepositMonthS();
             this.depositProfit = getDeposit().getDepositProfitS();
             this.depositRate = getDeposit().getDepositRateS();
-            
+
             setAccounts(new Accounts(tckno));
-            this.accountAmount= accounts.accountAmountInfo();
-            
+            this.accountAmount = accounts.accountAmountInfo();
+
             return "mainPage";
         }
         // UYARI VERIP INDEX SAYFASINA GERI DONMELI   
@@ -187,8 +190,8 @@ public class Customer implements Serializable {
 
         }
     }
-    
-    public void moneytransfer(){
+
+    public void moneytransfer() {
         try {
             Connection con = DbHelper.connectDb();
             pstatement = con.prepareStatement("select BAKIYE from HESAP where TCKIMLIKNUMARASI=? ");
@@ -197,36 +200,134 @@ public class Customer implements Serializable {
 
             if (rs.next()) {
                 this.gidenhesapD = rs.getFloat("BAKIYE");
-                gidenhesap= String.valueOf(gidenhesapD);
-                System.out.print("ACCOUNT icinde "+ gidenhesapD);
+                gidenhesap = String.valueOf(gidenhesapD);
+                System.out.print("ACCOUNT icinde " + gidenhesapD);
             }
             double tempbakiye;
             tempbakiye = Double.parseDouble(accountAmount);
-            
-            if (tempbakiye >= gidenparaD){
+
+            if (tempbakiye >= gidenparaD) {
                 gidenhesapD = gidenhesapD + gidenparaD;
                 tempbakiye = tempbakiye - gidenparaD;
-                gidenhesap= String.valueOf(gidenhesapD);
+                gidenhesap = String.valueOf(gidenhesapD);
                 accountAmount = String.valueOf(tempbakiye);
-                
+
                 pstatement = con.prepareStatement("UPDATE HESAP SET BAKIYE=? WHERE TCKIMLIKNUMARASI=? ");
-                pstatement.setDouble(1,gidenhesapD);
-                pstatement.setString(2,gidentckno);
+                pstatement.setDouble(1, gidenhesapD);
+                pstatement.setString(2, gidentckno);
+                pstatement.executeUpdate();
+
+                pstatement = con.prepareStatement("UPDATE HESAP SET BAKIYE=? WHERE TCKIMLIKNUMARASI=? ");
+                pstatement.setDouble(1, tempbakiye);
+                pstatement.setString(2, tckno);
                 pstatement.executeUpdate();
                 
-                pstatement = con.prepareStatement("UPDATE HESAP SET BAKIYE=? WHERE TCKIMLIKNUMARASI=? ");
-                pstatement.setDouble(1,tempbakiye);
-                pstatement.setString(2,tckno);
-                pstatement.executeUpdate();
+                
             }
-            
+
         } catch (SQLException e) {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
             System.out.println("Error Code: " + e.getErrorCode());
 
-        } 
+        }
+    }
+
+    public String depositDirected() {
+        setDeposit(new Deposit(tckno));
+        return "deposit";
+    }
+
+    public void calculate() {
+        setDeposit(new Deposit(tckno));
+        this.profit = deposit.calculateDeposit(depositAmountS, totalDayS);
     }
     
+   
+    
+    public String depositDatabaseCon() {
+        double tempDepositAmountD = Double.parseDouble(depositAmountS);
+            double tempbakiye;
+            tempbakiye = Double.parseDouble(accountAmount);
+
+        if (tempbakiye >= tempDepositAmountD) {
+            setDeposit(new Deposit(tckno));
+            deposit.depositToDatabase(depositAmountS, totalDayS);
+            
+            deposit.depositInfo();
+            this.depositAmount = getDeposit().getDepositS();
+            this.depositDate = getDeposit().getDepositDate();
+            this.depositMonth = getDeposit().getDepositMonthS();
+            this.depositProfit = getDeposit().getDepositProfitS();
+            this.depositRate = getDeposit().getDepositRateS();
+            
+            try{
+                Connection con = DbHelper.connectDb();
+                pstatement = con.prepareStatement("UPDATE HESAP SET BAKIYE=BAKIYE-? WHERE TCKIMLIKNUMARASI=? ");
+                pstatement.setDouble(1, tempDepositAmountD);
+                pstatement.setString(2, tckno);
+                pstatement.executeUpdate();
+                setAccounts(new Accounts(tckno));
+            this.accountAmount = accounts.accountAmountInfo();
+            
+            }
+            catch(SQLException e){
+                Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
+                System.out.println("Error Code: " + e.getErrorCode());
+            }
+            
+            
+        } else {
+            return "mainPage";// BAKİYE YETERSİZ UYARISI VERİLMELİ
+        }
+        return "deposit";
+    }
+
+    private String totalDayS;
+    private int totalDayI;
+    private String depositAmountS;
+    private double depositAmountD;
+    private double profit;
+
+    public String getTotalDayS() {
+        return totalDayS;
+    }
+
+    public void setTotalDayS(String totalDayS) {
+        this.totalDayS = totalDayS;
+    }
+
+    public int getTotalDayI() {
+        return totalDayI;
+    }
+
+    public void setTotalDayI(int totalDayI) {
+        this.totalDayI = totalDayI;
+    }
+
+    public String getDepositAmountS() {
+        return depositAmountS;
+    }
+
+    public void setDepositAmountS(String depositAmountS) {
+        this.depositAmountS = depositAmountS;
+    }
+
+    public double getDepositAmountD() {
+        return depositAmountD;
+    }
+
+    public void setDepositAmountD(double depositAmountD) {
+        this.depositAmountD = depositAmountD;
+    }
+
+    public double getProfit() {
+        return profit;
+    }
+
+    public void setProfit(double profit) {
+        this.profit = profit;
+    }
+
     public String getTckno() {
         return tckno;
     }
@@ -267,12 +368,11 @@ public class Customer implements Serializable {
         this.passwordControl = passwordControl;
     }
 
-    
     public String getSecurity() {
         return security;
     }
 
-      public Accounts getAccounts() {
+    public Accounts getAccounts() {
         return accounts;
     }
 
@@ -287,7 +387,7 @@ public class Customer implements Serializable {
     public void setAccountAmount(String accountAmount) {
         this.accountAmount = accountAmount;
     }
-    
+
     public Credit getCredit() {
         return credit;
     }
@@ -415,9 +515,7 @@ public class Customer implements Serializable {
     public void setDepositProfit(String depositProfit) {
         this.depositProfit = depositProfit;
     }
-    
-    
-    
+
     public String getGidentckno() {
         return gidentckno;
     }
