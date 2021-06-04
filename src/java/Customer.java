@@ -16,7 +16,7 @@ import javax.inject.Named;
 @SessionScoped
 
 public class Customer implements Serializable {
-    
+
     private String gidentckno;
     private String gidenpara;
     private String gidenhesap;
@@ -25,7 +25,7 @@ public class Customer implements Serializable {
     private double gidenparaD;
     private double gidenhesapD;
     private double borcodemeD;
-    
+
     private String tckno;
     private String name;
     private String lastname;
@@ -55,6 +55,42 @@ public class Customer implements Serializable {
 
     private Accounts accounts = null;
     private String accountAmount;
+
+    public String creditDatabaseCon() {
+        calculateCredit();
+        double temp = Double.parseDouble(creditDebt);
+        if(temp==0){
+             try {
+            double creditDtbAmount = Double.parseDouble(selectedCreditAmountS);
+            int creditDtbMonth = Integer.parseInt(selectedCreditMonthS);
+            Connection con = DbHelper.connectDb();
+            pstatement = con.prepareStatement("update KREDI set KREDIBORC= KREDIBORC+?, KREDIORAN=?, KREDITUTARI=?, VADEAYI=? where TCKIMLIKNUMARASI=?");
+            pstatement.setString(5, tckno);
+            pstatement.setDouble(1, creditDtb);
+            pstatement.setDouble(2, creditDtbRate);
+            pstatement.setDouble(3, creditDtbAmount);
+            pstatement.setInt(4, creditDtbMonth);
+            pstatement.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
+            System.out.println("Error Code Customer: " + e.getErrorCode());
+        }
+
+        setCredit(new Credit(tckno));
+        credit.creditInfo();
+        this.creditDebt = getCredit().getCreditString();
+        this.creditAmount = getCredit().getCreditAmountS();
+        this.creditRate = getCredit().getRatestring();
+        this.creditMonth = getCredit().getMonthS();
+        }
+        else{
+            System.out.println("Kredi alamaz uyarısı");
+            return "credit";  
+        }
+        
+        return "credit";  
+    }
 
     public Customer() {
 
@@ -192,7 +228,7 @@ public class Customer implements Serializable {
 
         }
     }
-    
+
     public void paybill() {
         try {
             double accountAmountD;
@@ -200,31 +236,31 @@ public class Customer implements Serializable {
             double asgari;
             borcD = Double.parseDouble(borc);
             accountAmountD = Double.parseDouble(accountAmount);
-            asgari = (borcD * 20)/100;
-            
-            if(borcodemeD >= asgari){
+            asgari = (borcD * 20) / 100;
+
+            if (borcodemeD >= asgari) {
                 accountAmountD = accountAmountD - borcodemeD;
                 accountAmount = String.valueOf(accountAmountD);
                 borcD = borcD - borcodemeD;
                 borc = String.valueOf(borcD);
-                
+
                 Connection con = DbHelper.connectDb();
                 pstatement = con.prepareStatement("UPDATE ODEMELER SET BORC=? WHERE TCKIMLIKNUMARASI=? ");
                 pstatement.setDouble(1, borcD);
                 pstatement.setString(2, tckno);
                 pstatement.executeUpdate();
-                
+
                 pstatement = con.prepareStatement("UPDATE HESAP SET BAKIYE=? WHERE TCKIMLIKNUMARASI=? ");
                 pstatement.setDouble(1, accountAmountD);
                 pstatement.setString(2, tckno);
                 pstatement.executeUpdate();
             }
-            
+
         } catch (SQLException e) {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
             System.out.println("Error Code: " + e.getErrorCode());
         }
-            
+
     }
 
     public void moneytransfer() {
@@ -257,8 +293,7 @@ public class Customer implements Serializable {
                 pstatement.setDouble(1, tempbakiye);
                 pstatement.setString(2, tckno);
                 pstatement.executeUpdate();
-                
-                
+
             }
 
         } catch (SQLException e) {
@@ -277,41 +312,37 @@ public class Customer implements Serializable {
         setDeposit(new Deposit(tckno));
         this.profit = deposit.calculateDeposit(depositAmountS, totalDayS);
     }
-    
-   
-    
+
     public String depositDatabaseCon() {
         double tempDepositAmountD = Double.parseDouble(depositAmountS);
-            double tempbakiye;
-            tempbakiye = Double.parseDouble(accountAmount);
+        double tempbakiye;
+        tempbakiye = Double.parseDouble(accountAmount);
 
         if (tempbakiye >= tempDepositAmountD) {
             setDeposit(new Deposit(tckno));
             deposit.depositToDatabase(depositAmountS, totalDayS);
-            
+
             deposit.depositInfo();
             this.depositAmount = getDeposit().getDepositS();
             this.depositDate = getDeposit().getDepositDate();
             this.depositMonth = getDeposit().getDepositMonthS();
             this.depositProfit = getDeposit().getDepositProfitS();
             this.depositRate = getDeposit().getDepositRateS();
-            
-            try{
+
+            try {
                 Connection con = DbHelper.connectDb();
                 pstatement = con.prepareStatement("UPDATE HESAP SET BAKIYE=BAKIYE-? WHERE TCKIMLIKNUMARASI=? ");
                 pstatement.setDouble(1, tempDepositAmountD);
                 pstatement.setString(2, tckno);
                 pstatement.executeUpdate();
                 setAccounts(new Accounts(tckno));
-            this.accountAmount = accounts.accountAmountInfo();
-            
-            }
-            catch(SQLException e){
+                this.accountAmount = accounts.accountAmountInfo();
+
+            } catch (SQLException e) {
                 Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
                 System.out.println("Error Code: " + e.getErrorCode());
             }
-            
-            
+
         } else {
             return "mainPage";// BAKİYE YETERSİZ UYARISI VERİLMELİ
         }
@@ -324,6 +355,71 @@ public class Customer implements Serializable {
     private double depositAmountD;
     private double profit;
 
+    private String selectedCreditType;
+    private String selectedCreditAmountS;
+    private String selectedCreditMonthS;
+    private double selectedCreditAmountD;
+    private int selectedCreditI;
+    private double monthlyPay;
+    private double creditDtb;
+    private double creditDtbRate;
+
+    public void calculateCredit() {
+        setCredit(new Credit(tckno));
+        this.monthlyPay = calculateLoan(selectedCreditAmountS, selectedCreditMonthS, selectedCreditType);
+    }
+
+    public double loanCalculation(double creditAmountCalc, double rate) {
+
+        creditAmountCalc = creditAmountCalc + creditAmountCalc * rate / 100;
+
+        return creditAmountCalc;
+    }
+
+    public double calculateLoan(String selectAmountStr, String selectMonthStr, String selectCreditTypeS) {
+        double loan;
+        double selectAmount = Double.parseDouble(selectAmountStr);
+        int month = Integer.parseInt(selectMonthStr);
+        double creditCalculated;
+
+        System.out.println("KREDİR KREDİR" + selectCreditTypeS);
+        System.out.println("*-----------------------------------------------" + creditDebt);
+        if (selectCreditTypeS.equals("0") == true) {
+            System.out.println("Consumer");
+            creditCalculated = loanCalculation(selectAmount, 24.2);
+            this.creditDtbRate = 24.2;
+        } else if (selectCreditTypeS.equals("terrot") == true) {
+            System.out.println("ev");
+            creditCalculated = loanCalculation(selectAmount, 21.02);
+            this.creditDtbRate = 21.02;
+        } else {
+            System.out.println("auto");
+            creditCalculated = loanCalculation(selectAmount, 23.4);
+            this.creditDtbRate = 23.4;
+        }
+
+        this.creditDtb = creditCalculated;
+        loan = creditCalculated / month;
+
+        return loan;
+    }
+
+    public double getCreditDtbRate() {
+        return creditDtbRate;
+    }
+
+    public void setCreditDtbRate(double creditDtbRate) {
+        this.creditDtbRate = creditDtbRate;
+    }
+
+    public double getCreditDtb() {
+        return creditDtb;
+    }
+
+    public void setCreditDtb(double creditDtb) {
+        this.creditDtb = creditDtb;
+    }
+
     public String getTotalDayS() {
         return totalDayS;
     }
@@ -334,6 +430,14 @@ public class Customer implements Serializable {
 
     public int getTotalDayI() {
         return totalDayI;
+    }
+
+    public double getMonthlyPay() {
+        return monthlyPay;
+    }
+
+    public void setMonthlyPay(double monthlyPay) {
+        this.monthlyPay = monthlyPay;
     }
 
     public void setTotalDayI(int totalDayI) {
@@ -599,7 +703,7 @@ public class Customer implements Serializable {
     public void setGidenhesapD(double gidenhesapD) {
         this.gidenhesapD = gidenhesapD;
     }
-    
+
     public String getBorcodeme() {
         return borcodeme;
     }
@@ -614,5 +718,75 @@ public class Customer implements Serializable {
 
     public void setBorcodemeD(double borcodemeD) {
         this.borcodemeD = borcodemeD;
+    }
+
+    /**
+     * @return the selectedCreditType
+     */
+    public String getSelectedCreditType() {
+        return selectedCreditType;
+    }
+
+    /**
+     * @param selectedCreditType the selectedCreditType to set
+     */
+    public void setSelectedCreditType(String selectedCreditType) {
+        this.selectedCreditType = selectedCreditType;
+    }
+
+    /**
+     * @return the selectedCreditAmountS
+     */
+    public String getSelectedCreditAmountS() {
+        return selectedCreditAmountS;
+    }
+
+    /**
+     * @param selectedCreditAmountS the selectedCreditAmountS to set
+     */
+    public void setSelectedCreditAmountS(String selectedCreditAmountS) {
+        this.selectedCreditAmountS = selectedCreditAmountS;
+    }
+
+    /**
+     * @return the selectedCreditMonthS
+     */
+    public String getSelectedCreditMonthS() {
+        return selectedCreditMonthS;
+    }
+
+    /**
+     * @param selectedCreditMonthS the selectedCreditMonthS to set
+     */
+    public void setSelectedCreditMonthS(String selectedCreditMonthS) {
+        this.selectedCreditMonthS = selectedCreditMonthS;
+    }
+
+    /**
+     * @return the selectedCreditAmountD
+     */
+    public double getSelectedCreditAmountD() {
+        return selectedCreditAmountD;
+    }
+
+    /**
+     * @param selectedCreditAmountD the selectedCreditAmountD to set
+     */
+    public void setSelectedCreditAmountD(double selectedCreditAmountD) {
+        this.selectedCreditAmountD = selectedCreditAmountD;
+    }
+
+    /**
+     * @return the selectedCreditI
+     */
+    public int getSelectedCreditI() {
+        return selectedCreditI;
+    }
+
+    /**
+     * @param selectedCreditI the selectedCreditI to set
+     */
+    public void setSelectedCreditI(int selectedCreditI) {
+        this.selectedCreditI = selectedCreditI;
     }
 }

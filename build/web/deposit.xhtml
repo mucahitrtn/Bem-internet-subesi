@@ -119,19 +119,19 @@
                 </nav>
             </div>
 
-            <div class="databar" style="height:0;width:30%;padding-bottom:20%;background-color:#007bff; border-radius: 0.5rem; content: center;">
+            <div class="databar" style="height:0;width:30%;padding-bottom:22.5%;background-color:#007bff; border-radius: 0.5rem; content: center;">
                 <div>
                     <header><h5 style='color: #fe8c30;font-weight: bold'>DEPOSIT INCOME</h5></header>
                 </div>
                 <div>
                     <h:form id="dep-form">
                         <div class="form-group">
-                            <label for="IDNUM"><h5>Amount</h5></label>
+                            <label for="IDNUM"><b>Amount</b></label>
                             <h:inputText a:type="number" class="form-control" id="IDNUM" value="#{customer.depositAmountS}" a:placeholder="TRY"/>
 
                         </div>
                         <div class="form-group">
-                            <label for="CASH"><h5>Term</h5></label>
+                            <label for="CASH"><b>Term</b></label>
                             <h:inputText a:type="number" class="form-control" id="CASH" value="#{customer.totalDayS}" a:placeholder="Days"/>
                         </div>                       
                         <div>
@@ -144,13 +144,15 @@
                     <div>
                     <h:form id="profit-form">
                         <div class="rows2" id="Profit">
-                            <h4 class="line">Income: #{customer.profit}</h4>
+                            <h4 class="line"><b>Income: #{customer.profit}</b></h4>
+                            <h:form>
+                                <h:commandButton type="submit" id="button" class="btn btn-primary btn-block" value="Cash on deposit" action="#{customer.depositDatabaseCon()}" style="background-color: #fe8c30" >    
+                                </h:commandButton>
+                            </h:form>
                         </div>
+                        
                     </h:form>
-                        <h:form>
-                            <h:commandButton type="submit" id="button" class="btn btn-primary btn-block" value="Cash on deposit" action="#{customer.depositDatabaseCon()}" style="background-color: #fe8c30" >    
-                            </h:commandButton>
-                        </h:form>
+                        
                     </div>
                 </div>
 

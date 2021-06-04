@@ -92,8 +92,7 @@ public class Deposit implements Serializable {
         }
 
     }
-    
-    
+
     private double profitDeposit;
 
     public double getProfitDeposit() {
@@ -103,26 +102,24 @@ public class Deposit implements Serializable {
     public void setProfitDeposit(double profitDeposit) {
         this.profitDeposit = profitDeposit;
     }
-    
 
     public double calculateDeposit(String depositAmountS, String totalDayS) {
 
-       double depositAmountD = Double.parseDouble(depositAmountS);
-       int totalDayI = Integer.parseInt(totalDayS);
-       profitDeposit = depositAmountD * 18.25 * totalDayI / 36500;
-       profitDeposit = profitDeposit - profitDeposit * 5 / 100;
-       
-       return profitDeposit;
+        double depositAmountD = Double.parseDouble(depositAmountS);
+        int totalDayI = Integer.parseInt(totalDayS);
+        profitDeposit = depositAmountD * 18.25 * totalDayI / 36500;
+        profitDeposit = profitDeposit - profitDeposit * 5 / 100;
+
+        return profitDeposit;
     }
 
-  
-      public void depositToDatabase(String depositAmountS, String totalDayS) {
-          
-            double depositAmountD = Double.parseDouble(depositAmountS);
-            int totalDayI = Integer.parseInt(totalDayS);
-            double tempProfit=calculateDeposit(depositAmountS, totalDayS);
-            
-            try {
+    public void depositToDatabase(String depositAmountS, String totalDayS) {
+
+        double depositAmountD = Double.parseDouble(depositAmountS);
+        int totalDayI = Integer.parseInt(totalDayS);
+        double tempProfit = calculateDeposit(depositAmountS, totalDayS);
+
+        try {
             System.out.println("database ici Deposit: " + depositAmountD);
             System.out.println(totalDayI);
             System.out.println("Profit: " + profitDeposit);
@@ -143,12 +140,11 @@ public class Deposit implements Serializable {
             System.err.println(ex.getErrorCode());
             System.err.println(ex.getMessage());
         }
-       
-       
-    }
 
+    }
     
-    
+   
+
     public String getDepositS() {
         return depositS;
     }
