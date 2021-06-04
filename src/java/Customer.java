@@ -16,14 +16,16 @@ import javax.inject.Named;
 @SessionScoped
 
 public class Customer implements Serializable {
-
+    
     private String gidentckno;
     private String gidenpara;
     private String gidenhesap;
+    private String borcodeme;
     private double gidentcknoD;
     private double gidenparaD;
     private double gidenhesapD;
-
+    private double borcodemeD;
+    
     private String tckno;
     private String name;
     private String lastname;
@@ -189,6 +191,40 @@ public class Customer implements Serializable {
             System.out.println("Error Code: " + e.getErrorCode());
 
         }
+    }
+    
+    public void paybill() {
+        try {
+            double accountAmountD;
+            double borcD;
+            double asgari;
+            borcD = Double.parseDouble(borc);
+            accountAmountD = Double.parseDouble(accountAmount);
+            asgari = (borcD * 20)/100;
+            
+            if(borcodemeD >= asgari){
+                accountAmountD = accountAmountD - borcodemeD;
+                accountAmount = String.valueOf(accountAmountD);
+                borcD = borcD - borcodemeD;
+                borc = String.valueOf(borcD);
+                
+                Connection con = DbHelper.connectDb();
+                pstatement = con.prepareStatement("UPDATE ODEMELER SET BORC=? WHERE TCKIMLIKNUMARASI=? ");
+                pstatement.setDouble(1, borcD);
+                pstatement.setString(2, tckno);
+                pstatement.executeUpdate();
+                
+                pstatement = con.prepareStatement("UPDATE HESAP SET BAKIYE=? WHERE TCKIMLIKNUMARASI=? ");
+                pstatement.setDouble(1, accountAmountD);
+                pstatement.setString(2, tckno);
+                pstatement.executeUpdate();
+            }
+            
+        } catch (SQLException e) {
+            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
+            System.out.println("Error Code: " + e.getErrorCode());
+        }
+            
     }
 
     public void moneytransfer() {
@@ -562,5 +598,21 @@ public class Customer implements Serializable {
 
     public void setGidenhesapD(double gidenhesapD) {
         this.gidenhesapD = gidenhesapD;
+    }
+    
+    public String getBorcodeme() {
+        return borcodeme;
+    }
+
+    public void setBorcodeme(String borcodeme) {
+        this.borcodeme = borcodeme;
+    }
+
+    public double getBorcodemeD() {
+        return borcodemeD;
+    }
+
+    public void setBorcodemeD(double borcodemeD) {
+        this.borcodemeD = borcodemeD;
     }
 }
