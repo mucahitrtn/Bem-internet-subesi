@@ -47,10 +47,12 @@
                 <h:form >
                     <h2 class="text-center">Log in</h2>       
                     <div class="form-group">
-                        <h:inputText a:type="text" class="form-control" a:placeholder="Tckno" value="#{customer.tckno}" required="required"/>
+                        <h:inputText id="tcknoId" a:type="text" class="form-control" a:placeholder="Tckno" value="#{customer.tckno}" requiredMessage="TCKNO is required" required="true"/>
+                        <h:message for="tcknoId" errorStyle="color:red; display:block"/>
                     </div>
                     <div class="form-group">
-                        <h:inputSecret a:type="password" class="form-control" a:placeholder="Password" value="#{customer.password}" required="required"/>
+                        <h:inputSecret id="passwordId" a:type="password" class="form-control" a:placeholder="Password" value="#{customer.password}" requiredMessage="Password is required" required="true"/>
+                        <h:message for="passwordId" errorStyle="color:red; display:block"/>
                     </div>
                     <div class="form-group">
                         <h:commandButton type="submit" class="btn btn-primary btn-block"  action="#{customer.authenticate()}"  value="Login" />                                        

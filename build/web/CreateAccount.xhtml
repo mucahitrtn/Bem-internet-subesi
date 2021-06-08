@@ -73,28 +73,34 @@ and open the template in the editor.
             <h:form>
                 <h2 class="text-center">REGISTER</h2>       
                 <div class="form-row">
-                    <h:inputText a:type="text" class="form-control" a:placeholder="TCKNO" required="true"              
+                    <h:inputText id="id1" a:type="text" class="form-control" a:placeholder="TCKNO" required="true"              
                                  requiredMessage="TCKNO is required" value="#{customer.tckno}"/>
+                    <h:message for="id1" errorStyle="color:red; display:block"/>
                 </div>
                 <div class="form-row">
-                    <h:inputText a:type="text" class="form-control" a:placeholder="NAME" required="true"              
+                    <h:inputText id="id2" a:type="text" class="form-control" a:placeholder="NAME" required="true"              
                                  requiredMessage="NAME is required" value="#{customer.name}" />
+                    <h:message for="id2" errorStyle="color:red; display:block"/>
                 </div>
                 <div class="form-row">
-                    <h:inputText a:type="text" class="form-control" a:placeholder="LASTNAME" required="true"              
+                    <h:inputText id="id3" a:type="text" class="form-control" a:placeholder="LASTNAME" required="true"              
                                  requiredMessage="LASTNAME is required" value="#{customer.lastname}" />
+                    <h:message for="id3" errorStyle="color:red; display:block"/>
                 </div>
                 <div class="form-row">
-                    <h:inputText a:type="text" class="form-control" a:placeholder="YYYY-MM-DD" required="true"              
+                    <h:inputText  id="id4" a:type="text" class="form-control" a:placeholder="YYYY-MM-DD" required="true"              
                                  requiredMessage="Birth Date is required" value="#{customer.birthDate}" />
+                    <h:message for="id4" errorStyle="color:red; display:block"/>
                 </div>
                 <div class="form-row">
-                    <h:inputText a:type="text" class="form-control" a:placeholder="SECURITY WORD" required="true"              
+                    <h:inputText id="id5" a:type="text" class="form-control" a:placeholder="SECURITY WORD" required="true"              
                                  requiredMessage="SECURITY word is required" value="#{customer.security}" />
+                    <h:message for="id5" errorStyle="color:red; display:block"/>
                 </div>
                 <div class="form-row">
-                    <h:inputSecret a:type="password" class="form-control" a:placeholder="PASSWORD" required="true"              
+                    <h:inputSecret id="id6" a:type="password" class="form-control" a:placeholder="PASSWORD" required="true"              
                                    requiredMessage="PASSWORD is required" value="#{customer.password}" />
+                    <h:message for="id6" errorStyle="color:red; display:block"/>
                 </div>
                 <h:form>
                     <div class="form-row">

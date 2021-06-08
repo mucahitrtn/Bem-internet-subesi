@@ -89,7 +89,7 @@ public class Deposit implements Serializable {
             System.out.println("CREATE ACCOUNT CALISIYOR DENEME DENEME");
             pstatement.setString(1, tckno);
             System.out.println(tckno);
-            pstatement.setString(2, "-");
+            pstatement.setString(2, "2021-06-08");
             pstatement.executeUpdate();
 
         } catch (SQLException ex) {

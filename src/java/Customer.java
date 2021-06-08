@@ -163,8 +163,10 @@ public class Customer implements Serializable {
 
             return "mainPage";
         }
+       
+        
         // UYARI VERIP INDEX SAYFASINA GERI DONMELI   
-        return "INVALID TCKNO OR PASSWORD";
+        return "index";
     }
 
     public String changePasword() {
