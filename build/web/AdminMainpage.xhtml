@@ -13,7 +13,16 @@
     <h:head>
 
         <style>
-
+            html {
+                height: 100%;
+            }
+            body {
+                height: 100%;
+                margin: 0;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background: linear-gradient(62deg, #141c64 5%, #944A05 100%);
+            }
 
             .navbar{
                 background-image: linear-gradient(62deg, #047cfc 5%, #141c64 100%);
@@ -62,7 +71,9 @@
         <div >
             <div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-primary">
-                    <a href="adminLogin" class="navbar-brand"><b>BEM Bank</b></a>
+                    <h:form>
+                        <h:commandLink action="adminLogin" class="navbar-brand"><b>BEM Bank</b></h:commandLink>
+                    </h:form>
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>

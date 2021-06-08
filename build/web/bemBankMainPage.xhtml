@@ -13,7 +13,16 @@
     <h:head>
 
         <style>
-            
+           html {
+                height: 100%;
+            }
+            body {
+                height: 100%;
+                margin: 0;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background: linear-gradient(62deg, #141c64 5%, #944A05 100%);
+            }
 
             .navbar{
                 background-image: linear-gradient(62deg, #047cfc 5%, #141c64 100%);
@@ -23,12 +32,6 @@
                 border: 2px solid transparent;
                 margin-left:5px;
                 margin-right:5px;
-            }
-
-            p{
-                font-weight: bold;
-                color: #fe8c30;
-                padding-top: 20px;
             }
 
             .nav-item:hover{
@@ -41,25 +44,44 @@
             }
 
             .databar{
-                margin: 180px 650px;
+                margin: 100px 45px;
                 float: left;
                 border-radius: 20px;
                 padding: 15px;
                 background-image: linear-gradient(62deg, #047cfc 5%, #141c64 100%);
             }
-            h5 {
-                margin-bottom: 15px;
-                padding-bottom: 10px;
-                border-bottom: 2px solid #BA3619;
+            
+            p{
+                font-weight: bold;
+                color: #fe8c30;
+                padding-top: 20px;
+            }
+            
+            h4 {
+                color: white;
             }
 
+            .line{
+                margin-top: 45px;
+                margin-bottom: 45px;
+            }
 
+            .resim{
+                margin: 160px 150px;
+            }
+
+            .yazi{
+               
+            }
+            
+            
+            
         </style>
 
     </h:head>
     <h:body>
 
-        <div >
+        <div class="bg">
             <div>
                 <nav class="navbar navbar-expand-lg navbar-light bg-primary">
                     <a href="#" class="navbar-brand"><b>BEM Bank</b></a>
@@ -72,7 +94,7 @@
                             <h:form>
                                 <h:commandLink action="bemBankMainPage" class="nav-item nav-link" ><p>Home</p></h:commandLink>
                             </h:form>
-                            
+
                         </div>
                         <div class="navbar-nav ml-auto">
                             <h:form>
@@ -86,6 +108,25 @@
                 </nav>
             </div>
 
+            <div class="databar" style="height:540px;width:25%;padding-bottom:20%;background-color:#007bff;">
+
+                <div>
+                    <center><header><h5 style='color: #fe8c30;font-weight: bold'>Exchange Rates</h5></header></center>
+                </div>
+
+                <h4 class="line">USD BUY 8.4915 | SELL 8.8451</h4>
+
+                <h4 class="line">EURO BUY 10.3324 | SELL 10.7628</h4>
+
+                <h4 class="line">GBP BUY 12.0299 | SELL 12.5309</h4>
+
+                <h4 class="line">Altın BUY 509.57 | SELL 538.39</h4>
+
+            </div>
+
+            <img src="image/bank.png" style="width: 400px;height: 400px" class="resim"></img>
+
+            
         </div>
 
     </h:body>

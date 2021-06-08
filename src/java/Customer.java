@@ -59,37 +59,36 @@ public class Customer implements Serializable {
     public String creditDatabaseCon() {
         calculateCredit();
         double temp = Double.parseDouble(creditDebt);
-        if(temp==0){
-             try {
-            double creditDtbAmount = Double.parseDouble(selectedCreditAmountS);
-            int creditDtbMonth = Integer.parseInt(selectedCreditMonthS);
-            Connection con = DbHelper.connectDb();
-            pstatement = con.prepareStatement("update KREDI set KREDIBORC= KREDIBORC+?, KREDIORAN=?, KREDITUTARI=?, VADEAYI=? where TCKIMLIKNUMARASI=?");
-            pstatement.setString(5, tckno);
-            pstatement.setDouble(1, creditDtb);
-            pstatement.setDouble(2, creditDtbRate);
-            pstatement.setDouble(3, creditDtbAmount);
-            pstatement.setInt(4, creditDtbMonth);
-            pstatement.executeUpdate();
+        if (temp == 0) {
+            try {
+                double creditDtbAmount = Double.parseDouble(selectedCreditAmountS);
+                int creditDtbMonth = Integer.parseInt(selectedCreditMonthS);
+                Connection con = DbHelper.connectDb();
+                pstatement = con.prepareStatement("update KREDI set KREDIBORC= KREDIBORC+?, KREDIORAN=?, KREDITUTARI=?, VADEAYI=? where TCKIMLIKNUMARASI=?");
+                pstatement.setString(5, tckno);
+                pstatement.setDouble(1, creditDtb);
+                pstatement.setDouble(2, creditDtbRate);
+                pstatement.setDouble(3, creditDtbAmount);
+                pstatement.setInt(4, creditDtbMonth);
+                pstatement.executeUpdate();
 
-        } catch (SQLException e) {
-            Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
-            System.out.println("Error Code Customer: " + e.getErrorCode());
-        }
+            } catch (SQLException e) {
+                Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
+                System.out.println("Error Code Customer: " + e.getErrorCode());
+            }
 
-        setCredit(new Credit(tckno));
-        credit.creditInfo();
-        this.creditDebt = getCredit().getCreditString();
-        this.creditAmount = getCredit().getCreditAmountS();
-        this.creditRate = getCredit().getRatestring();
-        this.creditMonth = getCredit().getMonthS();
-        }
-        else{
+            setCredit(new Credit(tckno));
+            credit.creditInfo();
+            this.creditDebt = getCredit().getCreditString();
+            this.creditAmount = getCredit().getCreditAmountS();
+            this.creditRate = getCredit().getRatestring();
+            this.creditMonth = getCredit().getMonthS();
+        } else {
             System.out.println("Kredi alamaz uyarısı");
-            return "credit";  
+            return "credit";
         }
-        
-        return "credit";  
+
+        return "credit";
     }
 
     public Customer() {
@@ -99,6 +98,7 @@ public class Customer implements Serializable {
     public String createAccount() {
 
         try {
+            System.out.println("Error  Customer:  bıırrınrınını");
             Connection con = DbHelper.connectDb();
             pstatement = con.prepareStatement("insert into CUSTOMER (TCKIMLIKNUMARASI, ISIM,SOYISIM,PASSWORD,DOGUMTARIHI,GUVENLIK) values (?,?,?,?,?,?) ");
             pstatement.setString(1, tckno);
@@ -124,6 +124,8 @@ public class Customer implements Serializable {
 
         setAccounts(new Accounts(tckno));
         accounts.createAccountAccount();
+        
+        
 
         return "index";
     }
@@ -318,33 +320,39 @@ public class Customer implements Serializable {
         double tempbakiye;
         tempbakiye = Double.parseDouble(accountAmount);
 
-        if (tempbakiye >= tempDepositAmountD) {
-            setDeposit(new Deposit(tckno));
-            deposit.depositToDatabase(depositAmountS, totalDayS);
+        if (depositAmount.equals("0.0")) {
+            if (tempbakiye >= tempDepositAmountD) {
+                setDeposit(new Deposit(tckno));
+                deposit.depositToDatabase(depositAmountS, totalDayS);
 
-            deposit.depositInfo();
-            this.depositAmount = getDeposit().getDepositS();
-            this.depositDate = getDeposit().getDepositDate();
-            this.depositMonth = getDeposit().getDepositMonthS();
-            this.depositProfit = getDeposit().getDepositProfitS();
-            this.depositRate = getDeposit().getDepositRateS();
+                deposit.depositInfo();
+                this.depositAmount = getDeposit().getDepositS();
+                this.depositDate = getDeposit().getDepositDate();
+                this.depositMonth = getDeposit().getDepositMonthS();
+                this.depositProfit = getDeposit().getDepositProfitS();
+                this.depositRate = getDeposit().getDepositRateS();
 
-            try {
-                Connection con = DbHelper.connectDb();
-                pstatement = con.prepareStatement("UPDATE HESAP SET BAKIYE=BAKIYE-? WHERE TCKIMLIKNUMARASI=? ");
-                pstatement.setDouble(1, tempDepositAmountD);
-                pstatement.setString(2, tckno);
-                pstatement.executeUpdate();
-                setAccounts(new Accounts(tckno));
-                this.accountAmount = accounts.accountAmountInfo();
+                try {
+                    Connection con = DbHelper.connectDb();
+                    pstatement = con.prepareStatement("UPDATE HESAP SET BAKIYE=BAKIYE-? WHERE TCKIMLIKNUMARASI=? ");
+                    pstatement.setDouble(1, tempDepositAmountD);
+                    pstatement.setString(2, tckno);
+                    pstatement.executeUpdate();
+                    setAccounts(new Accounts(tckno));
+                    this.accountAmount = accounts.accountAmountInfo();
 
-            } catch (SQLException e) {
-                Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
-                System.out.println("Error Code: " + e.getErrorCode());
+                } catch (SQLException e) {
+                    Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
+                    System.out.println("Error Code: " + e.getErrorCode());
+                }
+
+            } else {
+                return "mainPage";// BAKİYE YETERSİZ UYARISI VERİLMELİ
             }
-
-        } else {
-            return "mainPage";// BAKİYE YETERSİZ UYARISI VERİLMELİ
+        }
+        else {
+            System.out.println("MEVDUAT VAR");
+            return "mainPage";
         }
         return "deposit";
     }

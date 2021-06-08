@@ -15,10 +15,15 @@ and open the template in the editor.
         <h:outputScript library="js" name="bootstrap.js"/>
 
         <style>
+            html {
+                height: 100%;
+            }
             body {
-                height: 100vh;
-                font-family: 'Raleway';
-                color: #333;
+                height: 100%;
+                margin: 0;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background: linear-gradient(62deg, #141c64 5%, #944A05 100%);
             }
             .login-form {
 
@@ -37,7 +42,7 @@ and open the template in the editor.
                 padding: 30px;
                 border-radius: 0.5rem;
                 background-color: #2d5986; /* For browsers that do not support gradients */        
-                background-image: linear-gradient(60deg, #82807e 30%, #841F4B 100% );
+                
             }
             .login-form h2 {
                 margin: 0 0 15px;
@@ -59,11 +64,12 @@ and open the template in the editor.
                 background-color: #0071df;
 
             }
+            
         </style>    
     </h:head>
 
     <h:body>
-        <div class="login-form">
+        <div class="login-form btn-primary">
             <h:form>
                 <h2 class="text-center">REGISTER</h2>       
                 <div class="form-row">

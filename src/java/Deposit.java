@@ -40,6 +40,7 @@ public class Deposit implements Serializable {
 
     private String depositProfitS;
     private float depositProfitF;
+    
 
     Customer customer = null;
 
@@ -49,7 +50,8 @@ public class Deposit implements Serializable {
     public Deposit(String tckno) {
         this.tckno = tckno;
     }
-
+    
+    
     public void depositInfo() {
         try {
             Connection con = DbHelper.connectDb();
@@ -81,10 +83,14 @@ public class Deposit implements Serializable {
 
     public void createAccountDeposit() {
         try {
+            System.out.println("CREATE ACCOUNT CALISIYOR DENEME DENEME");
             Connection con = DbHelper.connectDb();
-            pstatement = con.prepareStatement("insert into APP.DENEME (TCKIMLIKNUMARASI,MEVDUATYATIRILANPARA,MEVDUATYATIRMATARIHI,MEVDUATGUN,MEVDUATORAN,MEVDUATKAR) values (? , default, ?, default, default, default) ");
+            pstatement = con.prepareStatement("insert into APP.DENEME (TCKIMLIKNUMARASI, MEVDUATYATIRILANPARA, MEVDUATYATIRMATARIHI, MEVDUATGUN, MEVDUATORAN, MEVDUATKAR) values (? , default, ?, default, default, default)  ");
+            System.out.println("CREATE ACCOUNT CALISIYOR DENEME DENEME");
             pstatement.setString(1, tckno);
+            System.out.println(tckno);
             pstatement.setString(2, "-");
+            pstatement.executeUpdate();
 
         } catch (SQLException ex) {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, ex);
