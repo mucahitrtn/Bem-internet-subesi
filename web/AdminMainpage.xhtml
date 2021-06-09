@@ -11,13 +11,13 @@
     <!--<h:outputStylesheet library="css" name="mainpage.css"/>-->
     <h:outputScript library="js" name="bootstrap.js"/>
     <h:head>
-
+       
         <style>
             html {
-                height: 100%;
+                height: 200%;
             }
             body {
-               
+
                 height: 100%;     
                 background-repeat: no-repeat;
                 background-attachment: fixed;
@@ -50,11 +50,11 @@
             }
 
             .databar{
-                margin: fixed;
+
                 float: left;
                 border-radius: 20px;
                 padding: 15px;
-                background-image: linear-gradient(62deg, #047cfc 5%, #141c64 100%);
+                background-image: linear-gradient(62deg, lightgray 5%, lightgrey 100%);
             }
             h5 {
                 margin-bottom: 15px;
@@ -92,57 +92,123 @@
                     </div>
                 </nav>
             </div>
-            <div class="databar" style="height:150px;width:20%;padding-bottom:20%;background-color:#007bff; margin-top: 40px;margin-left: 790px;">
+            <div class="databar" style="height:100px;width:20%;padding-bottom:12%;background-color:#007bff; margin-top: 40px;margin-left: 790px;">
 
                 <div>
-                    <center><header><h5 style='color: #fe8c30;font-weight: bold'>The customer who has max deposit amount</h5></header></center>
+                    <center><header><h5 style='color: #944A05;font-weight: bold'>The customer who has max deposit amount</h5></header></center>
                 </div>
 
-                <h4 class="line">Id Number    : #{admin.tcknoDb}</h4>
+                <h4 class="line">Tckno    : #{admin.tcknoDb}</h4>
 
-                <h4 class="line">Name         : #{admin.mevduatdb}</h4>
+                <h4 class="line">Deposit Balance         : #{admin.mevduatdb}</h4>
 
-                <h4 class="line">Last Name    : #{admin.borcDb}</h4>
-               
+                <h4 class="line">Credit Dept    : #{admin.borcDb}</h4>
+
+
+            </div>
+            
+           <div class="databar" style="height:125px;width:20%;padding-bottom:15%;background-color:#007bff; margin-top: 40px;margin-left: 790px;">
+
+                <div>
+                    <center><header><h5 style='color: #944A05;font-weight: bold'>The customer with the highest deposit and no loan debt</h5></header></center>
+                </div>
+
+                <h4 class="line">Tckno    : #{admin.tck}</h4>
+                
+                <h4 class="line">Name    : #{admin.ism}</h4>
+                
+                <h4 class="line">Lastname    : #{admin.sism}</h4>
+
+                <h4 class="line">Balance         : #{admin.mevd}</h4>
+
+                <h4 class="line">Credit Dept    : #{admin.kredibmv}</h4>
+
+
+            </div> 
+            
+            <div class="databar" style="height:50px;width:22.5%; padding-bottom:10%;background-color: lightgray; margin-top: 40px;margin-left: 772.5px;">
+
+                <div>
+                    <center><header><h5 style='color: #944A05;font-weight: bold'>BANK INFORMATION</h5></header></center>
+                </div>
+
+                <h4 class="line">Total balance: #{admin.sumamnt}</h4>
+
+                <h4 class="line">Total amount of credit given to customers: #{admin.sumcrdt}</h4>
+
+                <h4 class="line">Total deposit: #{admin.sumdpst}</h4>
+
 
             </div>
             
             <div>
-                
-                <h:dataTable class="table table-hover bg-light" style="width: 40%; margin-top: 500px; margin-left: 600px; border-radius: 0.75rem;" value="#{admin.customerTable}" var="c">
+
+                <h:dataTable class="table table-hover bg-light" style="width: 40%; margin-top: 1000px; margin-left: 600px; border-radius: 0.75rem;" value="#{admin.customerTable}" var="c">
                     <h:column>
                         <f:facet name="header">TCKNO</f:facet>
-                       #{c.tckno}
+                            #{c.tckno}
                     </h:column>
                     <h:column>
                         <f:facet name="header">NAME</f:facet>
-                       #{c.name}
+                            #{c.name}
                     </h:column>
                     <h:column>
                         <f:facet name="header">LASTNAME</f:facet>
-                       #{c.lastname}
+                            #{c.lastname}
                     </h:column>
                     <h:column>
                         <f:facet name="header">DEPOSIT</f:facet>
-                       #{c.depositAmountD}
+                            #{c.depositAmountD}
                     </h:column>
                     <h:column>
                         <f:facet name="header">CREDIT</f:facet>
-                       #{c.creditAmntD}
+                            #{c.creditAmntD}
                     </h:column>
                     <h:column>
                         <f:facet name="header">TOTAL AMOUNT</f:facet>
-                       #{c.amnt}
+                            #{c.amnt}
                     </h:column>
                     <h:column>
                         <f:facet name="header">PAYMENTS</f:facet>
-                       #{c.borcd}
+                            #{c.borcd}
                     </h:column>
-                        
+
                 </h:dataTable>
+
+            </div>
+
+            
+
+            <div >
                 
+                <h:dataTable id="table1" class="table table-hover bg-light" style="width: 40%; margin-top: 100px; margin-left: 600px; border-radius: 0.75rem;" value="#{admin.tableSearch}" var="t">
+                    <h:column>
+                        <f:facet name="header">TCKNO</f:facet>
+                            #{t.tckno}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">NAME</f:facet>
+                            #{t.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">LASTNAME</f:facet>
+                            #{t.lastname}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">CREDIT</f:facet>
+                            #{t.creditAmntD}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">TOTAL AMOUNT</f:facet>
+                            #{t.amnt}
+                    </h:column>
+
+                </h:dataTable>
+
             </div>
             
+            
+
         </div>
 
     </h:body>

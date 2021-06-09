@@ -114,6 +114,14 @@ public class Customer implements Serializable {
         this.borcd= borc;
     }
     
+    public Customer(String tckno, String name, String lastname,  double kredi, double bakiye){
+        this.tckno= tckno;
+        this.name= name;
+        this.lastname=lastname;
+        this.creditAmntD= kredi;
+        this.amnt= bakiye;
+    }
+    
     private double amnt;
     private double borcd;
 
@@ -137,7 +145,7 @@ public class Customer implements Serializable {
     public String createAccount() {
 
         try {
-            System.out.println("Error  Customer:  bıırrınrınını");
+            
             Connection con = DbHelper.connectDb();
             pstatement = con.prepareStatement("insert into CUSTOMER (TCKIMLIKNUMARASI, ISIM,SOYISIM,PASSWORD,DOGUMTARIHI,GUVENLIK) values (?,?,?,?,?,?) ");
             pstatement.setString(1, tckno);
