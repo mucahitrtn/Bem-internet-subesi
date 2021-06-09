@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <h:outputStylesheet library="css" name="bootstrap.css"/>
+    <!--<h:outputStylesheet library="css" name="mainpage.css"/>-->
+    <h:outputScript library="js" name="bootstrap.js"/>
+    <h:head>
+
+        <style>
+           html {
+                height: 100%;
+            }
+            body {
+                height: 100%;
+                margin: 0;
+                background-repeat: no-repeat;
+                background-attachment: fixed;
+                background: linear-gradient(62deg, #141c64 5%, #944A05 100%);
+            }
+
+            .navbar{
+                background-image: linear-gradient(62deg, #047cfc 5%, #141c64 100%);
+            }
+
+            .nav-item{
+                border: 2px solid transparent;
+                margin-left:5px;
+                margin-right:5px;
+            }
+
+            .nav-item:hover{
+                border-bottom: 2px solid #fe8c30
+
+            }
+
+            .tab-content{
+                background-color: #fe8c30;
+            }
+
+            .databar{
+                margin: 60px 680px;
+                float: left;
+                border-radius: 20px;
+                padding: 15px;
+                background-image: linear-gradient(62deg, #047cfc 5%, #141c64 100%);
+            }
+            
+            p{
+                font-weight: bold;
+                color: #fe8c30;
+                padding-top: 20px;
+            }
+            
+            h4 {
+                color: white;
+            }
+
+            .line{
+                margin-top: 45px;
+                margin-bottom: 45px;
+            }
+
+            .resim{
+                margin: 160px 150px;
+            }
+
+            p{
+                color: #fe8c30
+            }
+            
+            
+            
+        </style>
+
+    </h:head>
+    <h:body>
+
+        <div class="bg">
+            <div>
+                <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+                    <a href="#" class="navbar-brand"><b>BEM Bank</b></a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav">
+                            <h:form>
+                                <h:commandLink action="bemBankMainPage" class="nav-item nav-link" ><p>Home</p></h:commandLink>
+                            </h:form>
+                        </div>
+                        <div class="navbar-nav">
+                            <h:form>
+                                <h:commandLink action="AboutUs" class="nav-item nav-link" ><p>About Us</p></h:commandLink>
+                            </h:form>
+                        </div>
+                        <div class="navbar-nav ml-auto">
+                            <h:form>
+                                <h:commandLink action="adminLogin" class="nav-item nav-link "><p>Log in Admin</p></h:commandLink>
+                            </h:form>
+                            <h:form>
+                                <h:commandLink action="index" class="nav-item nav-link "><p>Log in Customer</p></h:commandLink>
+                            </h:form>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="databar" style="height:620px;width:25%;padding-bottom:20%;background-color:#007bff;text-align: center;">
+
+                <div>
+                    <center><header><h5 style='color: #944A05;font-weight: bold'>ABOUT US</h5></header></center>
+                </div>
+
+                <p><b style="color: #fe8c30">Contributing to the sustainable growth of the national economy</b></p>
+            <p>BEM Bank has incorporated under a special charter act (Law No. 6219) dated 11 th January 1954 and commenced its operations on the 13th of April 1954 with a capital of TL 50 million. At its inception, the Bank’s mission was to set as managing and utilizing the assets of foundations in the most efficient manner in line with the needs of the economic development, contributing to Turkey’s increasing savings rate based on a management and working understanding aligned with the requirements of modern banking.</p> 
+            <p>Also to preserve the deposits that is collected to put them in use towards the requirements of the economic development. BEM Bank’s IPO marks a turning point in the Bank’s corporate history. During the public offering of BEM Bank, new shares have been created through capital increase that were sold domestically and abroad, thus generating new funds worth USD 1.2 billion for the Turkish economy and for the Bank.</p>
+ 
+            </div>
+
+            
+            
+       
+            
+        </div>
+      
+    </h:body>
+</html>
