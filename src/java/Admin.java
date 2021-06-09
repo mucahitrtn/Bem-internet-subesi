@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -31,9 +33,9 @@ public class Admin implements Serializable{
     private double maxDeposit;
     private String tcknoDb;
     private double mevduatdb;
-
+    
     private double borcDb;
-
+   
     public Admin() {
 
     }
@@ -73,13 +75,40 @@ public class Admin implements Serializable{
         if (rs.next()) {
             System.out.println("BURADA ADMİIN");
             maxDepositCustomer();
+           
             return "AdminMainpage";
         }
         else{
             return "index";
-        }  
+   
+        }   
     }
-
+    
+    public ArrayList<Customer> getcustomerTable (){
+         ArrayList<Customer> tmp= new ArrayList<>();
+         try {
+            Connection con = DbHelper.connectDb();
+            pstatement = con.prepareStatement("SELECT CUSTOMER.TCKIMLIKNUMARASI, CUSTOMER.ISIM, CUSTOMER.SOYISIM, DENEME.MEVDUATYATIRILANPARA, KREDI.KREDIBORC, HESAP.BAKIYE, ODEMELER.BORC\n" +
+"FROM ((((CUSTOMER INNER JOIN KREDI ON CUSTOMER.TCKIMLIKNUMARASI= KREDI.TCKIMLIKNUMARASI)\n" +
+"        INNER JOIN DENEME ON CUSTOMER.TCKIMLIKNUMARASI= DENEME.TCKIMLIKNUMARASI)\n" +
+"        INNER JOIN HESAP ON CUSTOMER.TCKIMLIKNUMARASI= HESAP.TCKIMLIKNUMARASI)\n" +
+"        INNER JOIN ODEMELER ON CUSTOMER.TCKIMLIKNUMARASI= ODEMELER.TCKIMLIKNUMARASI) ORDER BY BAKIYE DESC" );
+            rs = pstatement.executeQuery();
+            System.out.println("1. BOLGE");
+            while(rs.next()){
+                Customer c= new Customer(rs.getString("TCKIMLIKNUMARASI"), rs.getString("ISIM"), rs.getString("SOYISIM"),
+                        rs.getDouble("MEVDUATYATIRILANPARA"), rs.getDouble("KREDIBORC"),rs.getDouble("BAKIYE"), rs.getDouble("BORC"));
+                tmp.add(c);
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Error Code Admin: " + e.getErrorCode());
+        }
+         
+         return tmp;
+     }
+    
+    
     public String getTckno() {
         return tckno;
     }

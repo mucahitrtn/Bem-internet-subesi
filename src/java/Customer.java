@@ -45,7 +45,16 @@ public class Customer implements Serializable {
     private String creditAmount;
     private String creditRate;
     private String creditMonth;
+    private double creditAmntD;
 
+    public double getCreditAmntD() {
+        return creditAmntD;
+    }
+
+    public void setCreditAmntD(double creditAmntD) {
+        this.creditAmntD = creditAmntD;
+    }
+    
     private Deposit deposit = null;
     private String depositAmount;
     private String depositDate;
@@ -92,9 +101,39 @@ public class Customer implements Serializable {
     }
 
     public Customer() {
+        
+    }
+    
+    public Customer(String tckno, String name, String lastname, double mevduat, double kredi, double bakiye, double borc){
+        this.tckno= tckno;
+        this.name= name;
+        this.lastname=lastname;
+        this.depositAmountD=mevduat;
+        this.creditAmntD= kredi;
+        this.amnt= bakiye;
+        this.borcd= borc;
+    }
+    
+    private double amnt;
+    private double borcd;
 
+    public double getBorcd() {
+        return borcd;
     }
 
+    public void setBorcd(double borcd) {
+        this.borcd = borcd;
+    }
+    public double getAmnt() {
+        return amnt;
+    }
+
+    public void setAmnt(double amnt) {
+        this.amnt = amnt;
+    }
+    
+   
+    
     public String createAccount() {
 
         try {
