@@ -125,22 +125,13 @@ public class Customer implements Serializable {
     private double amnt;
     private double borcd;
 
-    public double getBorcd() {
-        return borcd;
-    }
-
-    public void setBorcd(double borcd) {
-        this.borcd = borcd;
-    }
-    public double getAmnt() {
-        return amnt;
-    }
-
-    public void setAmnt(double amnt) {
-        this.amnt = amnt;
-    }
-    
    
+   private String tcknoA;
+   private String nameA;
+   private String lastA;
+   private String passwordA;
+   private String dateA;
+   private String secur;
     
     public String createAccount() {
 
@@ -148,28 +139,28 @@ public class Customer implements Serializable {
             
             Connection con = DbHelper.connectDb();
             pstatement = con.prepareStatement("insert into CUSTOMER (TCKIMLIKNUMARASI, ISIM,SOYISIM,PASSWORD,DOGUMTARIHI,GUVENLIK) values (?,?,?,?,?,?) ");
-            pstatement.setString(1, tckno);
-            pstatement.setString(2, name);
-            pstatement.setString(3, lastname);
-            pstatement.setString(4, password);
-            pstatement.setString(5, birthDate);
-            pstatement.setString(6, security);
+            pstatement.setString(1, tcknoA);
+            pstatement.setString(2, nameA);
+            pstatement.setString(3, lastA);
+            pstatement.setString(4, passwordA);
+            pstatement.setString(5, dateA);
+            pstatement.setString(6, secur);
             pstatement.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(Customer.class.getName()).log(Level.SEVERE, null, e);
             System.out.println("Error Code Customer: " + e.getErrorCode());
         }
 
-        setPayments(new Payments(tckno));
+        setPayments(new Payments(tcknoA));
         payments.createAccountPayments();
 
-        setCredit(new Credit(tckno));
+        setCredit(new Credit(tcknoA));
         credit.createAccountCredit();
 
-        setDeposit(new Deposit(tckno));
+        setDeposit(new Deposit(tcknoA));
         deposit.createAccountDeposit();
 
-        setAccounts(new Accounts(tckno));
+        setAccounts(new Accounts(tcknoA));
         accounts.createAccountAccount();
         
         
@@ -846,4 +837,67 @@ public class Customer implements Serializable {
     public void setSelectedCreditI(int selectedCreditI) {
         this.selectedCreditI = selectedCreditI;
     }
+    
+     public double getBorcd() {
+        return borcd;
+    }
+
+    public void setBorcd(double borcd) {
+        this.borcd = borcd;
+    }
+    public double getAmnt() {
+        return amnt;
+    }
+
+    public void setAmnt(double amnt) {
+        this.amnt = amnt;
+    } 
+    public String getTcknoA() {
+        return tcknoA;
+    }
+
+    public void setTcknoA(String tcknoA) {
+        this.tcknoA = tcknoA;
+    }
+
+    public String getNameA() {
+        return nameA;
+    }
+
+    public void setNameA(String nameA) {
+        this.nameA = nameA;
+    }
+
+    public String getLastA() {
+        return lastA;
+    }
+
+    public void setLastA(String lastA) {
+        this.lastA = lastA;
+    }
+
+    public String getPasswordA() {
+        return passwordA;
+    }
+
+    public void setPasswordA(String passwordA) {
+        this.passwordA = passwordA;
+    }
+
+    public String getDateA() {
+        return dateA;
+    }
+
+    public void setDateA(String dateA) {
+        this.dateA = dateA;
+    }
+
+    public String getSecur() {
+        return secur;
+    }
+
+    public void setSecur(String secur) {
+        this.secur = secur;
+    }
+    
 }

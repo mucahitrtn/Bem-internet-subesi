@@ -14,7 +14,7 @@
        
         <style>
             html {
-                height: 200%;
+                height: 220%;
             }
             body {
 
@@ -100,9 +100,9 @@
 
                 <h4 class="line">Tckno    : #{admin.tcknoDb}</h4>
 
-                <h4 class="line">Deposit Balance         : #{admin.mevduatdb}</h4>
+                <h4 class="line">Deposit Balance         : #{admin.mevduatdb}₺</h4>
 
-                <h4 class="line">Credit Dept    : #{admin.borcDb}</h4>
+                <h4 class="line">Credit Dept    : #{admin.borcDb}₺</h4>
 
 
             </div>
@@ -110,7 +110,7 @@
            <div class="databar" style="height:125px;width:20%;padding-bottom:15%;background-color:#007bff; margin-top: 40px;margin-left: 790px;">
 
                 <div>
-                    <center><header><h5 style='color: #944A05;font-weight: bold'>The customer with the highest deposit and no loan debt</h5></header></center>
+                    <center><header><h5 style='color: #944A05;font-weight: bold'>The customer with the highest balance and no loan debt</h5></header></center>
                 </div>
 
                 <h4 class="line">Tckno    : #{admin.tck}</h4>
@@ -119,9 +119,9 @@
                 
                 <h4 class="line">Lastname    : #{admin.sism}</h4>
 
-                <h4 class="line">Balance         : #{admin.mevd}</h4>
+                <h4 class="line">Balance         : #{admin.mevd}₺</h4>
 
-                <h4 class="line">Credit Dept    : #{admin.kredibmv}</h4>
+                <h4 class="line">Credit Dept    : #{admin.kredibmv}₺</h4>
 
 
             </div> 
@@ -132,11 +132,11 @@
                     <center><header><h5 style='color: #944A05;font-weight: bold'>BANK INFORMATION</h5></header></center>
                 </div>
 
-                <h4 class="line">Total balance: #{admin.sumamnt}</h4>
+                <h4 class="line">Total balance: #{admin.sumamnt}₺</h4>
 
-                <h4 class="line">Total amount of credit given to customers: #{admin.sumcrdt}</h4>
+                <h4 class="line">Total amount of credit given to customers: #{admin.sumcrdt}₺</h4>
 
-                <h4 class="line">Total deposit: #{admin.sumdpst}</h4>
+                <h4 class="line">Total deposit: #{admin.sumdpst}₺</h4>
 
 
             </div>
@@ -158,19 +158,19 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">DEPOSIT</f:facet>
-                            #{c.depositAmountD}
+                            #{c.depositAmountD}₺
                     </h:column>
                     <h:column>
                         <f:facet name="header">CREDIT</f:facet>
-                            #{c.creditAmntD}
+                            #{c.creditAmntD}₺
                     </h:column>
                     <h:column>
                         <f:facet name="header">TOTAL AMOUNT</f:facet>
-                            #{c.amnt}
+                            #{c.amnt}₺
                     </h:column>
                     <h:column>
                         <f:facet name="header">PAYMENTS</f:facet>
-                            #{c.borcd}
+                            #{c.borcd}₺
                     </h:column>
 
                 </h:dataTable>
@@ -196,11 +196,11 @@
                     </h:column>
                     <h:column>
                         <f:facet name="header">CREDIT</f:facet>
-                            #{t.creditAmntD}
+                            #{t.creditAmntD}₺
                     </h:column>
                     <h:column>
                         <f:facet name="header">TOTAL AMOUNT</f:facet>
-                            #{t.amnt}
+                            #{t.amnt}₺
                     </h:column>
 
                 </h:dataTable>

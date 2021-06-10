@@ -45,7 +45,7 @@ public class Admin implements Serializable {
             Connection con = DbHelper.connectDb();
             pstatement = con.prepareStatement("SELECT CUSTOMER.TCKIMLIKNUMARASI, DENEME.MEVDUATYATIRILANPARA, KREDI.KREDIBORC \n"
                     + "FROM  ((CUSTOMER INNER JOIN KREDI ON CUSTOMER.TCKIMLIKNUMARASI= KREDI.TCKIMLIKNUMARASI)\n"
-                    + "        INNER JOIN DENEME ON CUSTOMER.TCKIMLIKNUMARASI=DENEME.TCKIMLIKNUMARASI) ORDER BY MEVDUATYATIRILANPARA DESC OFFSET 0 ROWS FETCH NEXT 10 ROWS ONLY"
+                    + "        INNER JOIN DENEME ON CUSTOMER.TCKIMLIKNUMARASI=DENEME.TCKIMLIKNUMARASI) ORDER BY MEVDUATYATIRILANPARA DESC OFFSET 0 ROWS FETCH NEXT 1 ROWS ONLY"
             );
             rs = pstatement.executeQuery();
             System.out.println("1. BOLGE");
@@ -79,7 +79,7 @@ public class Admin implements Serializable {
             maxDepositCustomerwithNoCredit();
             return "AdminMainpage";
         } else {
-            return "index";
+            return "adminLogin";
 
         }
     }

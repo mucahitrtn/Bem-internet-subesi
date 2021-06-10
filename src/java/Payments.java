@@ -40,16 +40,17 @@ public class Payments implements Serializable {
 
     
 
+    
+    public Payments() {
+    }
     public Payments(String tckno) {
         this.tckno = tckno;
         
     }
-    public Payments() {
-    }
       public void createAccountPayments(){
          try {
             Connection con = DbHelper.connectDb();
-            pstatement = con.prepareStatement("insert into ODEMELER (TCKIMLIKNUMARASI, ISIM, BORC) values (?,?,?)");
+            pstatement = con.prepareStatement("INSERT into ODEMELER (TCKIMLIKNUMARASI,ISIM,BORC) values (?,?,?)");
             pstatement.setString(1, tckno);
             pstatement.setString(2, "Odeme Bulunmamaktadır.");
             pstatement.setDouble(3, 0);
